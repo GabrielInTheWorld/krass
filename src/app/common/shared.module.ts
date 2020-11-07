@@ -8,4 +8,4 @@ const declarations = [CanvasComponent];
   exports: [...declarations],
   declarations: [...declarations],
 })
-export class sharedModule {}
+export class SharedModule {}
