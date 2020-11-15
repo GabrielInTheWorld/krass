@@ -1,0 +1,13 @@
+.titlebar {
+    display: flex;
+    align-items: center;
+
+    .titlebar--title {
+        flex-grow: 2;
+    }
+}
+
+.inline--form-field {
+    display: flex;
+    justify-content: space-between;
+}

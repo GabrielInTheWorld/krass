@@ -1,0 +1,52 @@
+<app-dialog-template [backgroundColor]="'#3f51b5'">
+    <div class="titlebar" title>
+        <div class="titlebar--title">Neu</div>
+        <button mat-icon-button (click)="cancelCreating()"><mat-icon>close</mat-icon></button>
+    </div>
+    <div>
+        <form [formGroup]="createDialogForm">
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name" />
+            </mat-form-field>
+            <div class="inline--form-field">
+                <mat-form-field>
+                    <mat-label>Breite</mat-label>
+                    <input matInput formControlName="width" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Einheit</mat-label>
+                    <mat-select></mat-select>
+                </mat-form-field>
+            </div>
+            <div class="inline--form-field">
+                <mat-form-field>
+                    <mat-label>Höhe</mat-label>
+                    <input matInput formControlName="height" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Einheit</mat-label>
+                    <mat-select></mat-select>
+                </mat-form-field>
+            </div>
+            <div class="inline--form-field">
+                <mat-form-field>
+                    <mat-label>Auflösung</mat-label>
+                    <input matInput />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Einheit</mat-label>
+                    <mat-select></mat-select>
+                </mat-form-field>
+            </div>
+            <mat-form-field>
+                <mat-label>Hintergrundfarbe</mat-label>
+                <mat-select formControlName="backgroundColor"></mat-select>
+            </mat-form-field>
+        </form>
+    </div>
+    <div actions>
+        <button mat-button (click)="confirmCreating()">Ok</button>
+        <button mat-button (click)="cancelCreating()">Abbrechen</button>
+    </div>
+</app-dialog-template>

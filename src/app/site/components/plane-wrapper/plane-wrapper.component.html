@@ -1,0 +1,3 @@
+<div class="plane--wrapper" (mousewheel)="onMouseWheel($event)">
+    <app-canvas *ngFor="let canvas of planes" [plane]="canvas"></app-canvas>
+</div>

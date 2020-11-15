@@ -1,0 +1,21 @@
+<!-- <div class="menu-item--wrapper" [matMenuTriggerFor]="menu">
+    <div class="menu-item--content">
+        <ng-content></ng-content>
+    </div>
+</div> -->
+<button *ngIf="!menuData" class="menu-item--wrapper" mat-button (click)="buttonClick.emit()">
+    <ng-container *ngTemplateOutlet="outlet"></ng-container>
+</button>
+<button *ngIf="menuData" class="menu-item--wrapper" mat-button [matMenuTriggerFor]="menu">
+    <!-- <ng-content></ng-content> -->
+    <ng-container *ngTemplateOutlet="outlet"></ng-container>
+</button>
+<!-- <div class="menu-item--submenu"></div> -->
+
+<mat-menu #menu="matMenu">
+    <ng-template matMenuContent></ng-template>
+</mat-menu>
+
+<ng-template #outlet>
+    <ng-content></ng-content>
+</ng-template>

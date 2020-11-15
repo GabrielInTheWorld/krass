@@ -1,1 +1,7 @@
-<h1>Site component</h1>
+<app-titlebar>
+    <app-menu-item (buttonClick)="openCreateDialog()">Start</app-menu-item>
+</app-titlebar>
+<div class="app--content">
+    <!-- <button mat-button (click)="openCreateDialog()">Open Create Dialog</button> -->
+    <app-plane-wrapper></app-plane-wrapper>
+</div>

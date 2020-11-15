@@ -1,0 +1,12 @@
+<div class="dialog-template--wrapper">
+    <div class="dialog-template--title" [style.backgroundColor]="backgroundColor">
+        <ng-content select="[title]"></ng-content>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="dialog-template--content">
+        <ng-content></ng-content>
+    </div>
+    <div class="dialog-template--actions">
+        <ng-content select="[actions]"></ng-content>
+    </div>
+</div>

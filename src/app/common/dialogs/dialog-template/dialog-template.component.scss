@@ -1,0 +1,18 @@
+$padding: 0 12px;
+
+.dialog-template--wrapper {
+    margin: -24px;
+
+    .dialog-template--title {
+        padding: $padding;
+    }
+
+    .dialog-template--content {
+        padding: $padding;
+    }
+
+    .dialog-template--actions {
+        padding: 8px;
+        text-align: right;
+    }
+}
