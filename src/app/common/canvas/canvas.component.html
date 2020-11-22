@@ -1,5 +1,10 @@
 <canvas
-    [width]="800"
-    [height]="500"
+    #canvas
     [style.backgroundColor]="plane.backgroundColor ? plane.backgroundColor : ''"
+    (pointerup)="onMouseUp($event)"
+    (pointerdown)="onMouseDown($event)"
+    (pointermove)="onMouseMove($event)"
+    (mousemove)="onMouseMove($event)"
+    (mousedown)="onMouseDown($event)"
+    (mouseup)="onMouseUp($event)"
 ></canvas>

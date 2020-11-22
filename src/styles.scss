@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
+#top-item {
+    overflow: hidden;
+}
+
 html,
 body {
     position: absolute;
@@ -11,8 +15,5 @@ body {
     overflow: hidden;
 }
 body {
-    //   margin: 8px;
-    //   width: calc(100% - 16px);
-    //   height: calc(100% - 16px);
     font-family: Roboto, 'Helvetica Neue', sans-serif;
 }

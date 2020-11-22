@@ -1,0 +1,21 @@
+.right-site--toolbar {
+    width: 250px;
+    display: inline-block;
+    position: absolute;
+    height: calc(100vh - 111px);
+    top: 31px;
+    right: 0;
+
+    .action-box--wrapper {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+
+        .action-box {
+            display: flex;
+            justify-content: center;
+            margin-top: 8px;
+        }
+    }
+}

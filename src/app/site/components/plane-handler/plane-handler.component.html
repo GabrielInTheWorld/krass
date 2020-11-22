@@ -1,1 +1,10 @@
-<p>plane-handler works!</p>
+<div
+    cdkDropList
+    class="plane-handler--overall example-list"
+    [cdkDropListData]="planes"
+    (cdkDropListDropped)="drop($event)"
+>
+    <div class="plane-handler--draggable example-box" *ngFor="let canvas of planes" cdkDrag>
+        <div class="plane-handler--entry">Hello world</div>
+    </div>
+</div>

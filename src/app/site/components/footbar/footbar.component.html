@@ -1,0 +1,18 @@
+<app-footer>
+    <ng-container left-site>
+        <button mat-icon-button (click)="zoomOut()">
+            <mat-icon>remove</mat-icon>
+        </button>
+        <mat-slider [min]="10" [max]="400" [value]="getCurrentZoom()" [formControl]="sliderForm"></mat-slider>
+        <mat-form-field id="zoomInputField">
+            <input #zoomInput matInput [value]="getCurrentZoom()" [formControl]="inputForm" />
+            <span matSuffix>%</span>
+        </mat-form-field>
+        <button mat-icon-button (click)="resetZoom()" [matTooltip]="'Zoom zurücksetzen'">
+            <mat-icon>loop</mat-icon>
+        </button>
+        <button mat-icon-button (click)="zoomIn()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </ng-container>
+</app-footer>
