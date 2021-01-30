@@ -11,6 +11,7 @@ import { PaperComponent } from './paper/paper.component';
 import { FooterComponent } from './footer/footer.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { PanelComponent } from './panel/panel.component';
+import { ColorFieldComponent } from './color-field/color-field.component';
 
 const declarations = [
     CanvasComponent,
@@ -26,6 +27,6 @@ const declarations = [
 @NgModule({
     imports: [MaterialComponentsModule, CommonModule],
     exports: [...declarations],
-    declarations: [...declarations, DialogTemplateComponent, PanelComponent]
+    declarations: [...declarations, DialogTemplateComponent, PanelComponent, ColorFieldComponent]
 })
 export class SharedModule {}

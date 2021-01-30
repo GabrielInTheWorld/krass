@@ -1,6 +1,9 @@
 <canvas
     #canvas
-    [style.backgroundColor]="plane.backgroundColor ? plane.backgroundColor : ''"
+    [ngStyle]="{
+        'z-index': plane.index ? plane.index : 0,
+        'background-color': plane.backgroundColor ? plane.backgroundColor : ''
+    }"
     (pointerup)="onMouseUp($event)"
     (pointerdown)="onMouseDown($event)"
     (pointermove)="onMouseMove($event)"

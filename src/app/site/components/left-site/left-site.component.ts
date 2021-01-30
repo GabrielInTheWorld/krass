@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-left-site',
-  templateUrl: './left-site.component.html',
-  styleUrls: ['./left-site.component.scss']
+    selector: 'app-left-site',
+    templateUrl: './left-site.component.html',
+    styleUrls: ['./left-site.component.scss']
 })
 export class LeftSiteComponent implements OnInit {
+    @Input()
+    public isVisible = false;
 
-  constructor() { }
+    public constructor() {}
 
-  ngOnInit(): void {
-  }
-
+    public ngOnInit(): void {}
 }

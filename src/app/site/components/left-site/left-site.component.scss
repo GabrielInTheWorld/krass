@@ -1,0 +1,21 @@
+.left-site--toolbar {
+    width: 250px;
+    // display: inline-block;
+    height: calc(100vh - 111px);
+    top: 31px;
+    left: 0;
+    flex: 1 1 250px;
+
+    // .action-box--wrapper {
+    //     position: absolute;
+    //     bottom: 0;
+    //     left: 0;
+    //     width: 100%;
+
+    //     .action-box {
+    //         display: flex;
+    //         justify-content: center;
+    //         margin-top: 8px;
+    //     }
+    // }
+}
