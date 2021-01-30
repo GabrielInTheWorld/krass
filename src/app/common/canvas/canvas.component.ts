@@ -14,11 +14,18 @@ interface Pointer {
 export class CanvasComponent implements OnInit, AfterViewInit {
     public static readonly CENTIMETER_PER_INCH = 2.54;
 
+    @ViewChild('canvas', { static: true })
+    public readonly canvasWrapper: ElementRef<HTMLCanvasElement>;
+
     @Input()
     public plane: Plane;
 
-    @ViewChild('canvas', { static: true })
-    public readonly canvasWrapper: ElementRef<HTMLCanvasElement>;
+    @Input()
+    // public color = '#000';
+    public set color(color: string) {
+        this._color = color;
+        this.initConfig();
+    }
 
     @Input()
     public pixelDensity = 72;
@@ -29,6 +36,13 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     @Input()
     public height = 297;
 
+    @Input()
+    // public strokeWidth = 2;
+    public set strokeWidth(width: number) {
+        this._strokeWidth = width;
+        this.initConfig();
+    }
+
     private canvas: HTMLCanvasElement;
 
     private context: CanvasRenderingContext2D;
@@ -36,6 +50,9 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     private paintFn: () => void;
 
     private mousePointer: Pointer = { x: 0, y: 0 };
+
+    private _strokeWidth = 2;
+    private _color = '#000';
 
     public constructor() {}
 
@@ -49,8 +66,7 @@ export class CanvasComponent implements OnInit, AfterViewInit {
             this.context = this.canvas.getContext('2d');
             this.context.lineCap = 'round';
             this.context.lineJoin = 'round';
-            this.setColor('black');
-            this.setStrokeWidth(2);
+            this.initConfig();
             this.paintFn = () => this.onPaint();
         }
     }
@@ -90,6 +106,13 @@ export class CanvasComponent implements OnInit, AfterViewInit {
     private onPaint(): void {
         this.context.lineTo(this.mousePointer.x, this.mousePointer.y);
         this.context.stroke();
+    }
+
+    private initConfig(): void {
+        if (this.context) {
+            this.setColor(this._color);
+            this.setStrokeWidth(this._strokeWidth);
+        }
     }
 
     private initDraw(): void {

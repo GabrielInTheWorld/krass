@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+
 import { CanvasComponent } from './canvas/canvas.component';
 import { CreateCanvasDialogComponent } from './dialogs/create-canvas-dialog/create-canvas-dialog.component';
 import { ColorPickerDialogComponent } from './dialogs/color-picker-dialog/color-picker-dialog.component';
@@ -11,7 +12,8 @@ import { PaperComponent } from './paper/paper.component';
 import { FooterComponent } from './footer/footer.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { PanelComponent } from './panel/panel.component';
-import { ColorFieldComponent } from './color-field/color-field.component';
+import { ColorTileComponent } from './color-tile/color-tile.component';
+import { TooltipDirective } from './directives/tooltip.directive';
 
 const declarations = [
     CanvasComponent,
@@ -21,12 +23,13 @@ const declarations = [
     MenuItemComponent,
     PaperComponent,
     FooterComponent,
-    ToolbarComponent
+    ToolbarComponent,
+    ColorTileComponent
 ];
 
 @NgModule({
     imports: [MaterialComponentsModule, CommonModule],
     exports: [...declarations],
-    declarations: [...declarations, DialogTemplateComponent, PanelComponent, ColorFieldComponent]
+    declarations: [...declarations, DialogTemplateComponent, PanelComponent, TooltipDirective]
 })
 export class SharedModule {}

@@ -1,0 +1,8 @@
+$size: 20px;
+
+.color-tile--wrapper {
+    height: $size;
+    width: $size;
+    border: 1px solid #ccc;
+    cursor: pointer;
+}

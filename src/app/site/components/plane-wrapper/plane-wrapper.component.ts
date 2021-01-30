@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs';
+import { ColorService } from './../../services/color.service';
 import { Plane, PlaneService } from './../../services/plane.service';
 import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from '../../../core/base-components/base.component';
@@ -15,23 +17,20 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit {
         return this._planes;
     }
 
+    public get currentColor(): string {
+        return this._color;
+    }
+
     private _planes: Plane[] = [];
 
-    public constructor(private planeService: PlaneService) {
+    private _color = '';
+
+    public constructor(private planeService: PlaneService, private colorService: ColorService) {
         super();
     }
 
     public ngOnInit(): void {
-        this.subscriptions.push(
-            this.planeService.planesObservable.subscribe(planes => {
-                if (planes) {
-                    this._planes = planes;
-                }
-            }),
-            this.planeService.transformationObservable.subscribe(transformation =>
-                this.applyTransformation(transformation)
-            )
-        );
+        this.subscriptions.push(...this.getPlaneSubscriptions(), ...this.getColorSubscriptions());
     }
 
     public onMouseWheel(event: WheelEvent): void {
@@ -79,5 +78,22 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit {
             const style = this.planeWrapper.nativeElement.style;
             style.transform = nextTransformation;
         }
+    }
+
+    private getPlaneSubscriptions(): Subscription[] {
+        return [
+            this.planeService.planesObservable.subscribe(planes => {
+                if (planes) {
+                    this._planes = planes;
+                }
+            }),
+            this.planeService.transformationObservable.subscribe(transformation =>
+                this.applyTransformation(transformation)
+            )
+        ];
+    }
+
+    private getColorSubscriptions(): Subscription[] {
+        return [this.colorService.getColor().subscribe(nextColor => (this._color = nextColor))];
     }
 }

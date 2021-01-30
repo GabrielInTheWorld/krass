@@ -17,3 +17,9 @@ body {
 body {
     font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
+.flex--center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

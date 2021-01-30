@@ -1,3 +1,4 @@
+import { ColorFieldComponent } from './components/color-field/color-field.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { MaterialComponentsModule } from './../common/material-design/material-components.module';
 import { SiteComponent } from './site.component';
@@ -12,6 +13,7 @@ import { LeftSiteComponent } from './components/left-site/left-site.component';
 
 const declarations = [
     SiteComponent,
+    ColorFieldComponent,
     PlaneHandlerComponent,
     PlaneWrapperComponent,
     FootbarComponent,

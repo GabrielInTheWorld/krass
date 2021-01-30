@@ -1,4 +1,4 @@
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { PlaneService } from './../../services/plane.service';
 import { Component, OnInit } from '@angular/core';
 import { MatSliderChange } from '@angular/material/slider';
