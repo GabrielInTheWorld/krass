@@ -125,7 +125,7 @@
             },
             "root": "projects/ngx-canvas-app",
             "sourceRoot": "projects/ngx-canvas-app/src",
-            "prefix": "lib",
+            "prefix": "ngx",
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:ng-packagr",
