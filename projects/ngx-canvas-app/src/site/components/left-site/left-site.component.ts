@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class LeftSiteComponent implements OnInit {
     @Input()
-    public isVisible = false;
+    public isVisible = true;
 
     public constructor() {}
 

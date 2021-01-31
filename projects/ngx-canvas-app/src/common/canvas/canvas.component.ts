@@ -58,6 +58,7 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
     private context: CanvasRenderingContext2D;
 
     private mousePointer: Coordinates = { x: 0, y: 0 };
+    private secondPointer: Coordinates = { x: 0, y: 0 };
     private activeSubscription: Subscription = null;
 
     private _strokeWidth = 2;
@@ -87,18 +88,25 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
     }
 
     public onMouseDown(event: Coordinates): void {
-        this.context.beginPath();
-        this.context.moveTo(event.x, event.y);
+        this.mousePointer.x = this.secondPointer.x;
+        this.mousePointer.y = this.secondPointer.y;
+        this.secondPointer = { ...event };
+        // this.context.beginPath();
+        // this.context.moveTo(event.x, event.y);
     }
 
     public onMouseUp(): void {
-        this.context.closePath();
+        // this.context.closePath();
         this.resetPointer();
     }
 
     public onMouseMove(event: Coordinates): void {
-        this.mousePointer.x = event.x;
-        this.mousePointer.y = event.y;
+        // this.mousePointer.x = event.x;
+        // this.mousePointer.y = event.y;
+        this.mousePointer.x = this.secondPointer.x;
+        this.mousePointer.y = this.secondPointer.y;
+        this.secondPointer.x = event.x;
+        this.secondPointer.y = event.y;
         this.onPaint();
     }
 
@@ -119,8 +127,26 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
     }
 
     private onPaint(): void {
-        this.context.lineTo(this.mousePointer.x, this.mousePointer.y);
+        // const xMid = (this.mousePointer.x + this.secondPointer.x) / 2;
+        // const yMid = (this.mousePointer.y + this.secondPointer.y) / 2;
+        // const cpX1 = (xMid + this.mousePointer.x) / 2;
+        // const cpX2 = (xMid + this.secondPointer.x) / 2;
+        // this.context.quadraticCurveTo(cpX1, this.mousePointer.y, xMid, yMid);
+        // this.context.quadraticCurveTo(cpX2, this.secondPointer.y, this.secondPointer.x, this.secondPointer.y);
+        this.context.beginPath();
+        this.context.moveTo(this.mousePointer.x, this.mousePointer.y);
+        this.context.lineTo(this.secondPointer.x, this.secondPointer.y);
+        this.context.strokeStyle = this._color;
+        this.context.lineWidth = this._strokeWidth;
+        // this.context.quadraticCurveTo(
+        //     this.secondPointer.x,
+        //     this.secondPointer.y,
+        //     this.mousePointer.x,
+        //     this.mousePointer.y
+        // );
         this.context.stroke();
+        this.context.closePath();
+        // this.mousePointer = this.secondPointer;
     }
 
     private initConfig(): void {
@@ -132,6 +158,7 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
 
     private resetPointer(): void {
         this.mousePointer = { x: 0, y: 0 };
+        this.secondPointer = { x: 0, y: 0 };
     }
 
     private initDrawListeners(): void {

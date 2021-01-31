@@ -35,7 +35,8 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
 
     private _activePlane: Plane;
 
-    private _mouseMoveFn: (event: MouseEvent) => void;
+    private drawFn: (event: MouseEvent) => void;
+    private moveFn: (event: MouseEvent) => void;
 
     public constructor(
         private planeService: PlaneService,
@@ -48,12 +49,17 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
 
     public ngOnInit(): void {
         this.subscriptions.push(...this.getPlaneSubscriptions(), ...this.getColorSubscriptions());
-        this._mouseMoveFn = event => {
+        this.drawFn = event => {
+            this.onMouseDraw(event);
+        };
+        this.moveFn = event => {
             this.onMouseMove(event);
         };
     }
 
-    public ngAfterViewInit(): void {}
+    public ngAfterViewInit(): void {
+        this.initMoveListeners();
+    }
 
     public onMouseWheel(event: WheelEvent): void {
         if (event.ctrlKey) {
@@ -85,27 +91,43 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
 
     public onMouseDown(event: MouseEvent): void {
         this.startDrawingEvent.emit({ x: event.offsetX, y: event.offsetY });
-        this.initEventListeners();
+        this.initDrawListeners();
+        this.removeMoveListeners();
     }
 
     public onMouseUp(event: MouseEvent): void {
         this.endDrawingEvent.emit({ x: event.offsetX, y: event.offsetY });
-        this.removeEventListeners();
+        this.removeDrawListeners();
+        this.initMoveListeners();
     }
 
-    public onMouseMove(event: MouseEvent): void {
+    public onMouseDraw(event: MouseEvent): void {
         const coordinates = { x: event.offsetX, y: event.offsetY };
         this.drawEvent.emit(coordinates);
         this.planeDrawService.onDraw(coordinates, this._activePlane.index);
     }
-    private initEventListeners(): void {
-        this.planeWrapper.nativeElement.addEventListener('mousemove', this._mouseMoveFn);
-        this.planeWrapper.nativeElement.addEventListener('pointermove', this._mouseMoveFn);
+    public onMouseMove(event: MouseEvent): void {
+        this.planeDrawService.onMove(event);
     }
 
-    private removeEventListeners(): void {
-        this.planeWrapper.nativeElement.removeEventListener('mousemove', this._mouseMoveFn);
-        this.planeWrapper.nativeElement.removeEventListener('pointermove', this._mouseMoveFn);
+    private initDrawListeners(): void {
+        this.planeWrapper.nativeElement.addEventListener('mousemove', this.drawFn);
+        this.planeWrapper.nativeElement.addEventListener('pointermove', this.drawFn);
+    }
+
+    private initMoveListeners(): void {
+        this.planeWrapper.nativeElement.addEventListener('mousemove', this.moveFn);
+        this.planeWrapper.nativeElement.addEventListener('pointermove', this.moveFn);
+    }
+
+    private removeDrawListeners(): void {
+        this.planeWrapper.nativeElement.removeEventListener('mousemove', this.drawFn);
+        this.planeWrapper.nativeElement.removeEventListener('pointermove', this.drawFn);
+    }
+
+    private removeMoveListeners(): void {
+        this.planeWrapper.nativeElement.removeEventListener('mousemove', this.moveFn);
+        this.planeWrapper.nativeElement.removeEventListener('pointermove', this.moveFn);
     }
 
     private applyTransformation(nextTransformation: string): void {
