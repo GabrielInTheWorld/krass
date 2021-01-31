@@ -1,0 +1,11 @@
+<app-site
+    [hasToolbar]="hasToolbar"
+    [locationPaintingUtensils]="locationPaintingUtensils"
+    [locationPaneHandler]="locationPaneHandler"
+    [showPaintingUtensils]="showPaintingUtensils"
+    [showPaneHandler]="showPaneHandler"
+    [observeDrawing]="observeDrawing"
+    [backgroundLayer]="backgroundLayer"
+    (cursorDraw)="cursorDraw.emit($event)"
+    (cursorMove)="cursorMove.emit($event)"
+></app-site>

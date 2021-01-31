@@ -1,0 +1,13 @@
+<app-titlebar *ngIf="hasToolbar">
+    <app-menu-item (buttonClick)="openCreateDialog()">Start</app-menu-item>
+</app-titlebar>
+<mat-divider></mat-divider>
+<div class="site--wrapper">
+    <app-left-site></app-left-site>
+    <div class="app--content">
+        <app-plane-wrapper></app-plane-wrapper>
+    </div>
+    <app-right-site></app-right-site>
+</div>
+
+<app-footbar></app-footbar>
