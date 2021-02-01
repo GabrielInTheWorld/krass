@@ -1,3 +1,6 @@
-<button mat-icon-button [matTooltip]="label" (click)="clickHandler.emit()">
-    <mat-icon>{{ icon }}</mat-icon>
-</button>
+<div class="painting-utensils-button--wrapper" [ngClass]="{ active: isActive }">
+    <button class="painting-utensils-button" mat-icon-button [matTooltip]="label" (click)="clickHandler.emit()">
+        <mat-icon *ngIf="icon">{{ icon }}</mat-icon>
+        <ngx-custom-icon *ngIf="svgIcon" [path]="svgIcon"></ngx-custom-icon>
+    </button>
+</div>

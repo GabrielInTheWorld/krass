@@ -12,6 +12,9 @@ import { CreateCanvasDialogComponent } from './components/dialogs/create-canvas-
 import { ColorPickerDialogComponent } from './components/dialogs/color-picker-dialog/color-picker-dialog.component';
 import { DialogTemplateComponent } from './components/dialogs/dialog-template/dialog-template.component';
 import { MaterialComponentsModule } from './components/material-design/material-components.module';
+import { CustomIconComponent } from './custom-icon/custom-icon.component';
+import { CursorComponent } from './components/cursor/cursor.component';
+import { RingCursorDirective } from './directives/ring-cursor.directive';
 
 const declarations = [
     PaintingUtensilsButtonComponent,
@@ -24,7 +27,10 @@ const declarations = [
     ColorTileComponent,
     CreateCanvasDialogComponent,
     ColorPickerDialogComponent,
-    DialogTemplateComponent
+    DialogTemplateComponent,
+    CursorComponent,
+    CustomIconComponent,
+    RingCursorDirective
 ];
 
 @NgModule({

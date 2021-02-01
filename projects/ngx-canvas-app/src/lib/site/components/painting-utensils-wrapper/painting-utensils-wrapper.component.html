@@ -1,1 +1,10 @@
-<div class="painting-utensils--wrapper"></div>
+<div class="painting-utensils--wrapper">
+    <ngx-painting-utensils-button
+        *ngFor="let button of utensilsButtons"
+        (clickHandler)="button.onClick(button.mode)"
+        [isActive]="isDrawingMode(button.mode)"
+        [label]="button.label"
+        [icon]="button.icon"
+        [svgIcon]="button.svgIcon"
+    ></ngx-painting-utensils-button>
+</div>

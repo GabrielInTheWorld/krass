@@ -12,6 +12,12 @@ export class PaintingUtensilsButtonComponent implements OnInit {
     @Input()
     public icon: string;
 
+    @Input()
+    public svgIcon: string;
+
+    @Input()
+    public isActive = false;
+
     @Output()
     public clickHandler = new EventEmitter<void>();
 

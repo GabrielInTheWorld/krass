@@ -4,6 +4,8 @@ import { Coordinates } from './../../../site/services/plane-draw.service';
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Plane } from '../../../site/services/plane.service';
 
+type DrawingMode = 'pen' | 'eraser';
+
 @Component({
     selector: 'app-canvas',
     templateUrl: './canvas.component.html',
@@ -39,6 +41,12 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
     public endDrawing: Observable<Coordinates>;
 
     @Input()
+    public set drawingMode(mode: DrawingMode) {
+        this._drawingMode = mode;
+        this.initDrawingMode();
+    }
+
+    @Input()
     public pixelDensity = 72;
 
     @Input()
@@ -63,6 +71,9 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
 
     private _strokeWidth = 2;
     private _color = '#000';
+    private _drawingMode: DrawingMode = 'pen';
+
+    private activeMouseFn: () => void = () => {};
 
     public constructor() {
         super();
@@ -85,29 +96,26 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
             this.initConfig();
         }
         this.initDrawListeners();
+        this.initDrawingMode();
     }
 
     public onMouseDown(event: Coordinates): void {
         this.mousePointer.x = this.secondPointer.x;
         this.mousePointer.y = this.secondPointer.y;
         this.secondPointer = { ...event };
-        // this.context.beginPath();
-        // this.context.moveTo(event.x, event.y);
     }
 
     public onMouseUp(): void {
-        // this.context.closePath();
         this.resetPointer();
     }
 
     public onMouseMove(event: Coordinates): void {
-        // this.mousePointer.x = event.x;
-        // this.mousePointer.y = event.y;
         this.mousePointer.x = this.secondPointer.x;
         this.mousePointer.y = this.secondPointer.y;
         this.secondPointer.x = event.x;
         this.secondPointer.y = event.y;
-        this.onPaint();
+        // this.onDrawFreeHand();
+        this.activeMouseFn();
     }
 
     public setColor(color: string): void {
@@ -126,33 +134,40 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         return ((this.height / 10) * this.pixelDensity) / CanvasComponent.CENTIMETER_PER_INCH;
     }
 
-    private onPaint(): void {
-        // const xMid = (this.mousePointer.x + this.secondPointer.x) / 2;
-        // const yMid = (this.mousePointer.y + this.secondPointer.y) / 2;
-        // const cpX1 = (xMid + this.mousePointer.x) / 2;
-        // const cpX2 = (xMid + this.secondPointer.x) / 2;
-        // this.context.quadraticCurveTo(cpX1, this.mousePointer.y, xMid, yMid);
-        // this.context.quadraticCurveTo(cpX2, this.secondPointer.y, this.secondPointer.x, this.secondPointer.y);
+    private onDrawFreeHand(): void {
         this.context.beginPath();
+        this.context.globalCompositeOperation = 'source-over';
         this.context.moveTo(this.mousePointer.x, this.mousePointer.y);
         this.context.lineTo(this.secondPointer.x, this.secondPointer.y);
         this.context.strokeStyle = this._color;
         this.context.lineWidth = this._strokeWidth;
-        // this.context.quadraticCurveTo(
-        //     this.secondPointer.x,
-        //     this.secondPointer.y,
-        //     this.mousePointer.x,
-        //     this.mousePointer.y
-        // );
         this.context.stroke();
         this.context.closePath();
-        // this.mousePointer = this.secondPointer;
+    }
+
+    private onErase(): void {
+        this.context.beginPath();
+        this.context.globalCompositeOperation = 'destination-out';
+        this.context.arc(this.secondPointer.x, this.secondPointer.y, 8, 0, Math.PI * 2, false);
+        this.context.fill();
+        this.context.closePath();
     }
 
     private initConfig(): void {
         if (this.context) {
             this.setColor(this._color);
             this.setStrokeWidth(this._strokeWidth);
+        }
+    }
+
+    private initDrawingMode(): void {
+        switch (this._drawingMode) {
+            case 'pen':
+                this.activeMouseFn = () => this.onDrawFreeHand();
+                break;
+            case 'eraser':
+                this.activeMouseFn = () => this.onErase();
+                break;
         }
     }
 

@@ -1,23 +1,31 @@
-<div
-    #planeWrapper
-    class="plane--wrapper"
-    (mousewheel)="onMouseWheel($event)"
-    (pointerup)="onMouseUp($event)"
-    (pointerdown)="onMouseDown($event)"
-    (mousedown)="onMouseDown($event)"
-    (mouseup)="onMouseUp($event)"
-    [style.width]="'595px'"
-    [style.height]="'841px'"
->
-    <app-paper>
-        <app-canvas
-            *ngFor="let canvas of planes"
-            [plane]="canvas"
-            [color]="currentColor"
-            [isActive]="getActivePlaneObservableByPlane(canvas)"
-            [startDrawing]="startDrawingEvent"
-            [endDrawing]="endDrawingEvent"
-            [draw]="drawEvent"
-        ></app-canvas>
-    </app-paper>
+<div id="wrapper--wrapper" (mousemove)="onMouseMove($event)">
+    <ngx-cursor [pointX]="pointX" [pointY]="pointY"></ngx-cursor>
+    <div
+        ngxRingCursor
+        #planeWrapper
+        class="plane--wrapper"
+        (mousewheel)="onMouseWheel($event)"
+        (pointerup)="onMouseUp($event)"
+        (pointerdown)="onMouseDown($event)"
+        (pointerout)="onMouseUp($event)"
+        (mousedown)="onMouseDown($event)"
+        (mouseup)="onMouseUp($event)"
+        (mouseout)="onMouseUp($event)"
+        [style.width]="'595px'"
+        [style.height]="'841px'"
+    >
+        <!-- <ngx-cursor [pointX]="pointX" [pointY]="pointY"></ngx-cursor> -->
+        <app-paper>
+            <app-canvas
+                *ngFor="let canvas of planes"
+                [plane]="canvas"
+                [color]="currentColor"
+                [drawingMode]="currentDrawingMode"
+                [isActive]="getActivePlaneObservableByPlane(canvas)"
+                [startDrawing]="startDrawingEvent"
+                [endDrawing]="endDrawingEvent"
+                [draw]="drawEvent"
+            ></app-canvas>
+        </app-paper>
+    </div>
 </div>

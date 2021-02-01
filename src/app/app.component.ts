@@ -9,6 +9,13 @@ import { IpcRenderer, ipcRenderer } from 'electron';
 export class AppComponent {
     public title = 'krass';
 
+    public backgroundLayer = {
+        layer: 0,
+        background: '#fff',
+        width: 210,
+        height: 210
+    };
+
     private ipc: IpcRenderer;
 
     public constructor() {
