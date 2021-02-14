@@ -27,7 +27,7 @@ export class PlaneService {
         return this.planesSubject.asObservable();
     }
 
-    private planesSubject = new BehaviorSubject<Plane[]>([{ backgroundColor: '#bbb', id: '0' }]);
+    private planesSubject = new BehaviorSubject<Plane[]>([{ backgroundColor: '#fff', id: '0' }]);
 
     public constructor() {
         if (this.planesSubject.value) {

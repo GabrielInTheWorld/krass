@@ -1,5 +1,6 @@
 .site--wrapper {
     display: flex;
+    height: calc(100vh - 31px);
 }
 
 .app--content {
@@ -8,7 +9,8 @@
     text-align: center;
     overflow-y: auto;
     padding: 16px 0;
-    height: calc(100vh - 110px);
+    background: #eee;
+    // height: calc(100vh - 110px);
     // margin-right: 250px;
     // margin-left: 250px;
 }

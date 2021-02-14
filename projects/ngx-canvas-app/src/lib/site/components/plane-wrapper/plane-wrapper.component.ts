@@ -110,8 +110,8 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
     }
 
     public onMouseDraw(event: MouseEvent): void {
-        // this.pointX = event.offsetX;
-        // this.pointY = event.offsetY;
+        this.pointX = event.offsetX;
+        this.pointY = event.offsetY;
         if (this.isDrawing) {
             const coordinates = { x: event.offsetX, y: event.offsetY };
             this.drawEvent.emit(coordinates);
@@ -122,8 +122,8 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
     }
 
     public onMouseMove(event: MouseEvent): void {
-        this.pointX = event.offsetX;
-        this.pointY = event.offsetY;
+        // this.pointX = event.offsetX;
+        // this.pointY = event.offsetY;
         // this.planeDrawService.onMove(event);
     }
 

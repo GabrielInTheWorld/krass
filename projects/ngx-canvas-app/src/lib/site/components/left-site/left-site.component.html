@@ -1,5 +1,9 @@
 <div class="left-site--toolbar" [ngStyle]="{ display: isVisible ? 'inline-block' : 'none' }">
-    <mat-card [ngStyle]="{ padding: '2px', height: '100%', 'border-radius': 0 }">
+    <!-- <mat-card [ngStyle]="{ padding: '2px', height: '100%', 'border-radius': 0 }">
         <ngx-painting-utensils-wrapper></ngx-painting-utensils-wrapper>
-    </mat-card>
+    </mat-card> -->
+    <div class="left-site--inner-container">
+        <ngx-painting-utensils-wrapper></ngx-painting-utensils-wrapper>
+    </div>
 </div>
+<mat-divider [vertical]="true"></mat-divider>

@@ -15,10 +15,24 @@ export class ColorTileComponent implements OnInit {
         return this._backgroundColor;
     }
 
+    @Input()
+    public set size(size: string | number) {
+        if (typeof size === 'number') {
+            this._size = `${size}px`;
+        } else {
+            this._size = size;
+        }
+    }
+
+    public get size(): string | number {
+        return this._size;
+    }
+
     @Output()
     public clickColor = new EventEmitter<string>();
 
     private _backgroundColor = '';
+    private _size = '20px';
 
     public constructor() {}
 

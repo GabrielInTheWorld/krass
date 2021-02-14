@@ -1,7 +1,6 @@
-<div id="wrapper--wrapper" (mousemove)="onMouseMove($event)">
-    <ngx-cursor [pointX]="pointX" [pointY]="pointY"></ngx-cursor>
+<div id="wrapper--wrapper" ngxRingCursor>
+    <!-- <ngx-cursor [pointX]="pointX" [pointY]="pointY"></ngx-cursor> -->
     <div
-        ngxRingCursor
         #planeWrapper
         class="plane--wrapper"
         (mousewheel)="onMouseWheel($event)"

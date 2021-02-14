@@ -5,7 +5,7 @@
         </button>
         <mat-slider [min]="10" [max]="400" [value]="getCurrentZoom()" [formControl]="sliderForm"></mat-slider>
         <mat-form-field id="zoomInputField">
-            <input #zoomInput matInput [value]="getCurrentZoom()" [formControl]="inputForm" />
+            <input #zoomInput [ngxOnlyNumber]="true" matInput [value]="getCurrentZoom()" [formControl]="inputForm" />
             <span matSuffix>%</span>
         </mat-form-field>
         <button mat-icon-button (click)="resetZoom()" [matTooltip]="'Zoom zurücksetzen'">

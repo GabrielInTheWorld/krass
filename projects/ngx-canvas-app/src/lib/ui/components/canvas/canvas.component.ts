@@ -91,8 +91,8 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
             this.canvas.width = this.getWidth();
             this.canvas.height = this.getHeight();
             this.context = this.canvas.getContext('2d');
-            this.context.lineCap = 'round';
-            this.context.lineJoin = 'round';
+            // this.context.lineCap = 'round';
+            // this.context.lineJoin = 'round';
             this.initConfig();
         }
         this.initDrawListeners();

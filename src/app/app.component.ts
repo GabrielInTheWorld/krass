@@ -1,5 +1,5 @@
 import { Component, HostListener } from '@angular/core';
-import { IpcRenderer, ipcRenderer } from 'electron';
+import { IpcRenderer } from 'electron';
 
 @Component({
     selector: 'app-root',

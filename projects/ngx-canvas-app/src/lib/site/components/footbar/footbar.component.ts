@@ -53,9 +53,4 @@ export class FootbarComponent extends BaseComponent implements OnInit {
     public resetTransformation(): void {
         this.planeService.resetTransformation();
     }
-
-    public onSliderChange(change: MatSliderChange): void {
-        console.log('changeevent', change);
-        this.planeService.setZoom(change.value / 100);
-    }
 }
