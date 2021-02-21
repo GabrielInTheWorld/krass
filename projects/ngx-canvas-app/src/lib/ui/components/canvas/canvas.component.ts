@@ -1,7 +1,8 @@
-import { BaseComponent } from '../../../core/base-components/base.component';
-import { Observable, Subscription } from 'rxjs';
-import { Coordinates } from './../../../site/services/plane-draw.service';
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
+
+import { BaseComponent } from '../../../core/base-components/base.component';
+import { Coordinates, DrawPoint } from './../../../site/services/plane-draw.service';
 import { Plane } from '../../../site/services/plane.service';
 
 type DrawingMode = 'pen' | 'eraser';
@@ -39,6 +40,9 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
     public endDrawing: Observable<Coordinates>;
 
     @Input()
+    public observeDrawing: Observable<DrawPoint>;
+
+    @Input()
     public set drawingMode(mode: DrawingMode) {
         this._drawingMode = mode;
         this.initDrawingMode();
@@ -62,6 +66,7 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
 
     private mousePointer: Coordinates = { x: 0, y: 0 };
     private secondPointer: Coordinates = { x: 0, y: 0 };
+
     private activeSubscription: Subscription = null;
 
     private _strokeWidth = 2;
@@ -116,21 +121,37 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         this.context.lineWidth = width;
     }
 
-    private onDrawFreeHand(): void {
+    private onDrawingInput(input: DrawPoint): void {
+        switch (input.mode) {
+            case 'pen':
+                this.onDrawFreeHand(input.previousPointer, input.nextPointer, input.color, 2);
+                break;
+            case 'eraser':
+                this.onErase(input.nextPointer);
+                break;
+        }
+    }
+
+    private onDrawFreeHand(
+        firstPointer: Coordinates,
+        secondPointer: Coordinates,
+        color: string,
+        strokeWidth: number
+    ): void {
         this.context.beginPath();
         this.context.globalCompositeOperation = 'source-over';
-        this.context.moveTo(this.mousePointer.x, this.mousePointer.y);
-        this.context.lineTo(this.secondPointer.x, this.secondPointer.y);
-        this.context.strokeStyle = this._color;
-        this.context.lineWidth = this._strokeWidth;
+        this.context.moveTo(firstPointer.x, firstPointer.y);
+        this.context.lineTo(secondPointer.x, secondPointer.y);
+        this.context.strokeStyle = color;
+        this.context.lineWidth = strokeWidth;
         this.context.stroke();
         this.context.closePath();
     }
 
-    private onErase(): void {
+    private onErase(pointer: Coordinates): void {
         this.context.beginPath();
         this.context.globalCompositeOperation = 'destination-out';
-        this.context.arc(this.secondPointer.x, this.secondPointer.y, 8, 0, Math.PI * 2, false);
+        this.context.arc(pointer.x, pointer.y, 8, 0, Math.PI * 2, false);
         this.context.fill();
         this.context.closePath();
     }
@@ -145,10 +166,11 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
     private initDrawingMode(): void {
         switch (this._drawingMode) {
             case 'pen':
-                this.activeMouseFn = () => this.onDrawFreeHand();
+                this.activeMouseFn = () =>
+                    this.onDrawFreeHand(this.mousePointer, this.secondPointer, this._color, this._strokeWidth);
                 break;
             case 'eraser':
-                this.activeMouseFn = () => this.onErase();
+                this.activeMouseFn = () => this.onErase(this.secondPointer);
                 break;
         }
     }
@@ -165,7 +187,8 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         this.subscriptions.push(
             this.startDrawing.subscribe(pointer => this.onMouseDown(pointer)),
             this.endDrawing.subscribe(() => this.onMouseUp()),
-            this.draw.subscribe(pointer => this.onMouseMove(pointer))
+            this.draw.subscribe(pointer => this.onMouseMove(pointer)),
+            this.observeDrawing.subscribe(input => this.onDrawingInput(input))
         );
     }
 

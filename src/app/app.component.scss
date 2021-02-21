@@ -1,3 +1,11 @@
 .app-router-wrapper {
     height: 100%;
 }
+
+.app-canvas-preview {
+    position: absolute;
+    top: 0;
+    border: 1px solid;
+    width: 300px;
+    height: 300px;
+}

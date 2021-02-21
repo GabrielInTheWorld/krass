@@ -5,7 +5,19 @@
         [showPlaneHandler]="false"
         [showFooter]="false"
         [hasToolbar]="false"
+        (cursorDraw)="drawSubject.next($event)"
     >
         <ngx-color-field></ngx-color-field>
     </ngx-canvas-app>
+
+    <div class="app-canvas-preview">
+        <ngx-canvas-app
+            [showFooter]="false"
+            [showPaintingUtensils]="false"
+            [showPlaneHandler]="false"
+            [hasToolbar]="false"
+            [isPaintingEnabled]="false"
+            [observeDrawing]="drawSubject.asObservable()"
+        ></ngx-canvas-app>
+    </div>
 </div>

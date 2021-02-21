@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { IpcRenderer } from 'electron';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-root',
@@ -16,12 +17,14 @@ export class AppComponent {
         height: 210
     };
 
+    public drawSubject = new Subject<any>();
+
     private ipc: IpcRenderer;
 
     public constructor() {
-        if ((<any>window).require) {
+        if ((window as any).require) {
             try {
-                this.ipc = (<any>window).require('electron').ipcRenderer;
+                this.ipc = (window as any).require('electron').ipcRenderer;
             } catch (e) {
                 throw e;
             }

@@ -1,11 +1,22 @@
-import { PlaneTransformationService } from '../../services/plane-transformation.service';
-import { PlaneDrawService, Coordinates, DrawingMode } from '../../services/plane-draw.service';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Input,
+    OnInit,
+    ViewChild
+} from '@angular/core';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
-import { ColorService } from '../../services/color.service';
-import { Plane, PlaneService, PlaneSize } from '../../services/plane.service';
-import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnInit, ViewChild } from '@angular/core';
-import { BaseComponent } from '../../../core/base-components/base.component';
+
 import { AsyncOperation } from '../../../core/util/async-operation';
+import { BaseComponent } from '../../../core/base-components/base.component';
+import { ColorService } from '../../services/color.service';
+import { DrawPoint } from './../../services/plane-draw.service';
+import { PlaneDrawService, Coordinates, DrawingMode } from '../../services/plane-draw.service';
+import { PlaneTransformationService } from '../../services/plane-transformation.service';
+import { Plane, PlaneService, PlaneSize } from '../../services/plane.service';
 
 @Component({
     selector: 'app-plane-wrapper',
@@ -16,8 +27,11 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
     @ViewChild('planeWrapper')
     public readonly planeWrapper: ElementRef<HTMLElement>;
 
-    public pointX = 0;
-    public pointY = 0;
+    @Input()
+    public set isPaintingEnabled(isEnabled: boolean) {
+        this._isPaintingEnabled = isEnabled;
+        this.initPainting();
+    }
 
     public get width(): string {
         return `${this._size.width}px`;
@@ -46,6 +60,7 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
     public startDrawingEvent = new EventEmitter<Coordinates>();
     public drawEvent = new EventEmitter<Coordinates>();
     public endDrawingEvent = new EventEmitter<Coordinates>();
+    public inputDrawingEvent = new EventEmitter<DrawPoint>();
 
     private _planes: Plane[] = [];
     private _size: PlaneSize = { width: 0, height: 0 };
@@ -55,8 +70,11 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
     private _activePlane: Plane;
     private _loaded = new AsyncOperation();
 
+    private previousPointer: Coordinates = { x: 0, y: 0 };
+    private nextPointer: Coordinates = { x: 0, y: 0 };
     private drawFn: (event: MouseEvent) => void;
     private isDrawing = false;
+    private _isPaintingEnabled = true;
 
     public constructor(
         private planeService: PlaneService,
@@ -98,21 +116,33 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
     }
 
     public onMouseDraw(event: MouseEvent): void {
-        this.pointX = event.offsetX;
-        this.pointY = event.offsetY;
+        this.previousPointer = this.nextPointer;
+        this.nextPointer = { x: event.offsetX, y: event.offsetY };
         if (this.isDrawing) {
-            const coordinates = { x: event.offsetX, y: event.offsetY };
+            const coordinates = this.nextPointer;
             this.drawEvent.emit(coordinates);
-            this.planeDrawService.onDraw(coordinates, this._activePlane.index);
+            this.planeDrawService.onDraw(this.previousPointer, coordinates, this._activePlane.index);
         } else {
             this.planeDrawService.onMove(event);
         }
     }
 
+    private onMouseMove(event: MouseEvent): void {
+        this.nextPointer.x = event.offsetX;
+        this.nextPointer.y = event.offsetY;
+        this.planeDrawService.onMove(event);
+    }
+
     private initPainting(): void {
-        this.drawFn = event => {
-            this.onMouseDraw(event);
-        };
+        if (this._isPaintingEnabled) {
+            this.drawFn = event => {
+                this.onMouseDraw(event);
+            };
+        } else {
+            this.drawFn = event => {
+                this.onMouseMove(event);
+            };
+        }
         this.initDrawListeners();
     }
 
@@ -168,6 +198,9 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
                 if (mode) {
                     this.currentDrawingMode = mode;
                 }
+            }),
+            this.planeDrawService.getDrawingInputObservable().subscribe(input => {
+                this.inputDrawingEvent.emit(input);
             })
         ];
     }

@@ -11,7 +11,10 @@
                 </app-left-site>
                 <app-right-site *ngIf="showPlaneHandler && locationPaneHandler === 'top'"></app-right-site>
                 <div #appContent class="app--content">
-                    <app-plane-wrapper class="plane--wrapper"></app-plane-wrapper>
+                    <app-plane-wrapper
+                        class="plane--wrapper"
+                        [isPaintingEnabled]="isPaintingEnabled"
+                    ></app-plane-wrapper>
                     <app-footbar *ngIf="showFooter"></app-footbar>
                 </div>
                 <app-left-site *ngIf="showPaintingUtensils && locationPaintingUtensils === 'bottom'" [vertical]="false">

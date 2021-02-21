@@ -1,12 +1,13 @@
-import { BaseComponent } from '../core/base-components/base.component';
-import { Observable } from 'rxjs';
-import { infoDialogOptions } from '../ui/components/dialogs/dialog-options';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+
+import { BaseComponent } from '../core/base-components/base.component';
 import { CreateCanvasDialogComponent } from '../ui/components/dialogs/create-canvas-dialog/create-canvas-dialog.component';
-import { BackgroundLayer, PlaneService } from './services/plane.service';
+import { infoDialogOptions } from '../ui/components/dialogs/dialog-options';
 import { Coordinates, DrawPoint, PlaneDrawService } from './services/plane-draw.service';
 import { PlaneTransformationService } from './services/plane-transformation.service';
+import { BackgroundLayer, PlaneService } from './services/plane.service';
 
 export type ScreenLocation = 'left' | 'top' | 'right' | 'bottom';
 
@@ -43,6 +44,9 @@ export class SiteComponent extends BaseComponent implements OnInit, AfterViewIni
     @Input()
     public backgroundLayer: BackgroundLayer;
 
+    @Input()
+    public isPaintingEnabled = true;
+
     @Output()
     public cursorMove = new EventEmitter<Coordinates>();
 
@@ -64,10 +68,13 @@ export class SiteComponent extends BaseComponent implements OnInit, AfterViewIni
         if (this.backgroundLayer) {
             this.planeService.initialize(this.backgroundLayer);
         }
+        if (this.observeDrawing) {
+            this.observeDrawing.subscribe(input => this.planeDrawService.onDrawingInput(input));
+        }
     }
 
     public ngAfterViewInit(): void {
-        if (this.appContent.nativeElement) {
+        if (this.appContent && this.appContent.nativeElement) {
             this.appContent.nativeElement.addEventListener('wheel', event => this.onMouseWheel(event), {
                 passive: true
             });
