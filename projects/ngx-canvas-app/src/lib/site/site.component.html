@@ -1,15 +1,25 @@
-<div class="ngx-light-theme">
+<div class="ngx-light-theme ngx-canvas-app--container">
     <app-titlebar *ngIf="hasToolbar">
         <app-menu-item (buttonClick)="openCreateDialog()">Start</app-menu-item>
     </app-titlebar>
-    <!-- <mat-divider></mat-divider> -->
     <div class="site--wrapper">
-        <app-left-site></app-left-site>
-        <div class="app--content">
-            <app-plane-wrapper></app-plane-wrapper>
+        <div class="row-aligned">
+            <app-left-site *ngIf="showPaintingUtensils && locationPaintingUtensils === 'left'"> </app-left-site>
+            <app-right-site *ngIf="showPlaneHandler && locationPaneHandler === 'left'"></app-right-site>
+            <div class="column-aligned">
+                <app-left-site *ngIf="showPaintingUtensils && locationPaintingUtensils === 'top'" [vertical]="false">
+                </app-left-site>
+                <app-right-site *ngIf="showPlaneHandler && locationPaneHandler === 'top'"></app-right-site>
+                <div #appContent class="app--content">
+                    <app-plane-wrapper class="plane--wrapper"></app-plane-wrapper>
+                    <app-footbar *ngIf="showFooter"></app-footbar>
+                </div>
+                <app-left-site *ngIf="showPaintingUtensils && locationPaintingUtensils === 'bottom'" [vertical]="false">
+                </app-left-site>
+                <app-right-site *ngIf="showPlaneHandler && locationPaneHandler === 'bottom'"></app-right-site>
+            </div>
+            <app-left-site *ngIf="showPaintingUtensils && locationPaintingUtensils === 'right'"> </app-left-site>
+            <app-right-site *ngIf="showPlaneHandler && locationPaneHandler === 'right'"></app-right-site>
         </div>
-        <app-right-site></app-right-site>
     </div>
-
-    <app-footbar></app-footbar>
 </div>

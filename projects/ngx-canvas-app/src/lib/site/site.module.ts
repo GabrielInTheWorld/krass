@@ -23,7 +23,7 @@ const declarations = [
 
 @NgModule({
     declarations: [...declarations],
-    exports: [...declarations],
+    exports: [...declarations, UiModule],
     imports: [CommonModule, UiModule, DragDropModule, PaintingUtensilsModule]
 })
 export class SiteModule {}

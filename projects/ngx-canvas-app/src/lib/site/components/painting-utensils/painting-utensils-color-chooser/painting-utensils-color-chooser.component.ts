@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ColorService } from '../../../services/color.service';
 
 @Component({
@@ -7,6 +7,9 @@ import { ColorService } from '../../../services/color.service';
     styleUrls: ['./painting-utensils-color-chooser.component.scss']
 })
 export class PaintingUtensilsColorChooserComponent implements OnInit {
+    @Input()
+    public vertical = true;
+
     public get currentColor(): string {
         return this.colorService.currentColor;
     }

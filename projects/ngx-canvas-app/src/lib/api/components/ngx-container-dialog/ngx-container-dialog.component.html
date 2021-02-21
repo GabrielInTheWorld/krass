@@ -1,0 +1,14 @@
+<div class="ngx-dialog--container" [ngxPaper]="2" cdkDrag>
+    <div class="ngx-dialog--header">
+        <div class="ngx-dialog--header-content">
+            <ng-content select="[header]"></ng-content>
+        </div>
+        <div class="ngx-dialog--drag-handle" cdkDragHandle>
+            <mat-icon>gamepad</mat-icon>
+        </div>
+    </div>
+    <div class="ngx-dialog--content">
+        <ng-content></ng-content>
+    </div>
+    <div class="ngx-dialog--footer"></div>
+</div>

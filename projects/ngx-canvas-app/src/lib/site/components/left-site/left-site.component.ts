@@ -9,6 +9,9 @@ export class LeftSiteComponent implements OnInit {
     @Input()
     public isVisible = true;
 
+    @Input()
+    public vertical = true;
+
     public constructor() {}
 
     public ngOnInit(): void {}

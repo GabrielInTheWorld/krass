@@ -1,7 +1,6 @@
 import { DrawingMode, PlaneDrawService } from '../../../services/plane-draw.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { mdiEraser } from '@mdi/js';
-import { ColorService } from '../../../services/color.service';
 
 export interface UtensilsButton {
     label: string;
@@ -32,13 +31,10 @@ export class PaintingUtensilsWrapperComponent implements OnInit {
         }
     ];
 
-    // public get currentColor(): string {
-    //     return this.colorService.currentColor;
-    // }
+    @Input()
+    public vertical = true;
 
-    // public secondColor = '#FFF';
-
-    public constructor(private planeDrawService: PlaneDrawService, private colorService: ColorService) {}
+    public constructor(private planeDrawService: PlaneDrawService) {}
 
     public ngOnInit(): void {}
 

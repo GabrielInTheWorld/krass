@@ -1,6 +1,7 @@
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 
+const MAX_ZOOM = 6;
 const MIN_ZOOM = 0.1;
 const ZOOM_FACTOR = 0.1;
 const ROTATE_FACTOR = 10;
@@ -36,8 +37,10 @@ export class PlaneTransformationService {
     }
 
     public zoomIn(): void {
-        this._currentScale += ZOOM_FACTOR;
-        this.applyTransformation();
+        if (this._currentScale + ZOOM_FACTOR <= MAX_ZOOM) {
+            this._currentScale += ZOOM_FACTOR;
+            this.applyTransformation();
+        }
     }
 
     public zoomOut(): void {

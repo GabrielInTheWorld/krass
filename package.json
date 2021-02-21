@@ -12,6 +12,7 @@
         "lib:dev": "ng build --watch ngx-canvas-app",
         "lib:prod": "ng build --prod ngx-canvas-app",
         "lib:g": "ng g --project ngx-canvas-app",
+        "lib:link": "cd projects/ngx-canvas-app && npm link && cd ../..",
         "start:electron": "ng build --base-href ./ && electron ."
     },
     "private": true,

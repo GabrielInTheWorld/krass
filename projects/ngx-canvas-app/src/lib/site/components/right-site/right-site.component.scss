@@ -1,29 +1,33 @@
+$border: 1px solid rgba(0, 0, 0, 0.3);
+
 .right-site--toolbar {
     width: 250px;
     display: flex;
     flex-direction: column;
-    // display: inline-block;
-    // position: absolute;
     height: 100%;
-    // height: calc(100vh - 111px);
-    // top: 31px;
-    // right: 0;
     flex: 1 1 250px;
+    border-left: $border;
 
-    .action-box--wrapper {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-
-        .action-box {
-            display: flex;
-            justify-content: center;
-            margin-top: 8px;
-        }
-    }
-
-    .style {
+    .right-site--inner-container {
         flex: 2;
+        display: flex;
+        align-content: stretch;
+        flex-direction: column;
+        border-top: $border;
+
+        .plane-handler--container {
+            flex: 2;
+            padding: 16px;
+        }
+
+        .action-box--wrapper {
+            width: 100%;
+
+            .action-box {
+                display: flex;
+                justify-content: center;
+                margin-top: 8px;
+            }
+        }
     }
 }

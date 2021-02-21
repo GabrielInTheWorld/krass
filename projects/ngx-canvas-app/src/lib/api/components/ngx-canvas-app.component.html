@@ -3,9 +3,18 @@
     [locationPaintingUtensils]="locationPaintingUtensils"
     [locationPaneHandler]="locationPaneHandler"
     [showPaintingUtensils]="showPaintingUtensils"
-    [showPaneHandler]="showPaneHandler"
+    [showPlaneHandler]="showPlaneHandler"
+    [showFooter]="showFooter"
     [observeDrawing]="observeDrawing"
     [backgroundLayer]="backgroundLayer"
     (cursorDraw)="cursorDraw.emit($event)"
     (cursorMove)="cursorMove.emit($event)"
-></app-site>
+>
+</app-site>
+<ngx-container-dialog>
+    <ng-container *ngTemplateOutlet="content" leftSiteContent></ng-container>
+</ngx-container-dialog>
+
+<ng-template #content>
+    <ng-content></ng-content>
+</ng-template>

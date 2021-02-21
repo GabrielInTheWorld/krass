@@ -1,3 +1,11 @@
 <div class="app-router-wrapper">
-    <ngx-canvas-app [backgroundLayer]="backgroundLayer"></ngx-canvas-app>
+    <ngx-canvas-app
+        [backgroundLayer]="backgroundLayer"
+        [locationPaintingUtensils]="'bottom'"
+        [showPlaneHandler]="false"
+        [showFooter]="false"
+        [hasToolbar]="false"
+    >
+        <ngx-color-field></ngx-color-field>
+    </ngx-canvas-app>
 </div>

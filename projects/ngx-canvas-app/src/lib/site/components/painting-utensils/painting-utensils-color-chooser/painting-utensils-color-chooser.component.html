@@ -1,5 +1,5 @@
-<div class="painting-utensils--color-chooser">
-    <div class="painting-utensils--chooser-buttons">
+<div class="painting-utensils--color-chooser" [ngClass]="{ vertical: vertical, horizontal: !vertical }">
+    <div class="painting-utensils--chooser-buttons" [ngClass]="{ vertical: vertical, horizontal: !vertical }">
         <div matRipple class="mini-button" matTooltip="Farben zurücksetzen">
             <div class="chooser-tiles--preview">
                 <div class="second-color">

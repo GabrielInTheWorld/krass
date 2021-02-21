@@ -12,8 +12,6 @@ type DrawingMode = 'pen' | 'eraser';
     styleUrls: ['./canvas.component.scss']
 })
 export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy, AfterViewInit {
-    public static readonly CENTIMETER_PER_INCH = 2.54;
-
     @ViewChild('canvas', { static: true })
     public readonly canvasWrapper: ElementRef<HTMLCanvasElement>;
 
@@ -45,9 +43,6 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         this._drawingMode = mode;
         this.initDrawingMode();
     }
-
-    @Input()
-    public pixelDensity = 72;
 
     @Input()
     public width = 210;
@@ -88,11 +83,7 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
     public ngAfterViewInit(): void {
         if (this.canvasWrapper) {
             this.canvas = this.canvasWrapper.nativeElement;
-            this.canvas.width = this.getWidth();
-            this.canvas.height = this.getHeight();
             this.context = this.canvas.getContext('2d');
-            // this.context.lineCap = 'round';
-            // this.context.lineJoin = 'round';
             this.initConfig();
         }
         this.initDrawListeners();
@@ -114,7 +105,6 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         this.mousePointer.y = this.secondPointer.y;
         this.secondPointer.x = event.x;
         this.secondPointer.y = event.y;
-        // this.onDrawFreeHand();
         this.activeMouseFn();
     }
 
@@ -124,14 +114,6 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
 
     public setStrokeWidth(width: number): void {
         this.context.lineWidth = width;
-    }
-
-    public getWidth(): number {
-        return ((this.width / 10) * this.pixelDensity) / CanvasComponent.CENTIMETER_PER_INCH;
-    }
-
-    public getHeight(): number {
-        return ((this.height / 10) * this.pixelDensity) / CanvasComponent.CENTIMETER_PER_INCH;
     }
 
     private onDrawFreeHand(): void {

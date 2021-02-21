@@ -2,8 +2,8 @@ import { Observable } from 'rxjs';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { ScreenLocation } from '../../site/site.component';
-import { Plane } from '../../site/services/plane.service';
 import { Coordinates, DrawPoint } from '../../site/services/plane-draw.service';
+import { BackgroundLayer } from '../../site/services/plane.service';
 
 @Component({
     selector: 'ngx-canvas-app',
@@ -21,16 +21,19 @@ export class NgxCanvasAppComponent implements OnInit {
     public locationPaintingUtensils: ScreenLocation = 'left';
 
     @Input()
-    public showPaneHandler = true;
+    public showPlaneHandler = true;
 
     @Input()
     public locationPaneHandler: ScreenLocation = 'right';
 
     @Input()
+    public showFooter = true;
+
+    @Input()
     public observeDrawing: Observable<DrawPoint>;
 
     @Input()
-    public backgroundLayer: Plane;
+    public backgroundLayer: BackgroundLayer;
 
     @Output()
     public cursorMove = new EventEmitter<Coordinates>();

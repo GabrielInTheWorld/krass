@@ -7,7 +7,6 @@ import { DialogTemplateComponent } from './dialogs/dialog-template/dialog-templa
 import { ColorPickerDialogComponent } from './dialogs/color-picker-dialog/color-picker-dialog.component';
 import { CreateCanvasDialogComponent } from './dialogs/create-canvas-dialog/create-canvas-dialog.component';
 import { ColorTileComponent } from './color-tile/color-tile.component';
-import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { PaperComponent } from './paper/paper.component';
 import { MenuItemComponent } from './menu-item/menu-item.component';
@@ -22,7 +21,6 @@ const declarations = [
     MenuItemComponent,
     PaperComponent,
     FooterComponent,
-    ToolbarComponent,
     ColorTileComponent,
     CreateCanvasDialogComponent,
     ColorPickerDialogComponent,

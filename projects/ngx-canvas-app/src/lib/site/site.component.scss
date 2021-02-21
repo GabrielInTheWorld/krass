@@ -1,21 +1,36 @@
-.site--wrapper {
+.ngx-canvas-app--container {
     display: flex;
-    height: calc(100vh - 31px);
+    flex-direction: column;
+    height: 100%;
+}
+
+.site--wrapper {
+    height: 100%;
+
+    .row-aligned {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .column-aligned {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .app--content {
     flex: 2;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
     text-align: center;
-    overflow-y: auto;
-    padding: 16px 0;
+    overflow-y: hidden;
+    padding: 0;
     background: #eee;
-    // height: calc(100vh - 110px);
-    // margin-right: 250px;
-    // margin-left: 250px;
-}
 
-.plane--footer {
-    height: 48px;
-    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.14), 0 2px 4px -1px rgba(0, 0, 0, 0.4);
+    .plane--wrapper {
+        flex: 2;
+    }
 }

@@ -1,6 +1,18 @@
 .painting-utensils--color-chooser {
+    display: flex;
+    &.vertical {
+        flex-direction: column;
+    }
+    &.horizontal {
+        flex-direction: row;
+    }
+
     .painting-utensils--chooser-tiles {
         position: relative;
+        $size: 32px;
+        height: $size;
+        width: $size;
+        display: inline-block;
         .current-color {
             position: absolute;
             z-index: 2;
@@ -15,7 +27,14 @@
 
 .painting-utensils--chooser-buttons {
     display: flex;
-    margin: 4px 0;
+    &.vertical {
+        margin: 4px 0;
+        flex-direction: row;
+    }
+    &.horizontal {
+        margin: 0 4px;
+        flex-direction: column;
+    }
 
     $size: 18px;
     .mini-button {

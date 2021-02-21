@@ -1,0 +1,22 @@
+.ngx-dialog--container {
+    position: absolute;
+    z-index: 1003;
+    right: 20px;
+    top: 20px;
+    width: 150px;
+    padding: 16px;
+    border-radius: 4px;
+    background-color: white;
+
+    .ngx-dialog--header {
+        display: flex;
+        height: 36px;
+        margin-bottom: 12px;
+        align-items: center;
+        justify-content: space-between;
+
+        .ngx-dialog--drag-handle {
+            cursor: grabbing;
+        }
+    }
+}

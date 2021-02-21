@@ -1,5 +1,7 @@
 <canvas
     #canvas
+    [width]="width"
+    [height]="height"
     [ngStyle]="{
         'z-index': plane ? plane.index : 0,
         'background-color': plane ? plane.backgroundColor : ''

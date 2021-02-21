@@ -1,22 +1,19 @@
 <div id="wrapper--wrapper" ngxRingCursor>
-    <!-- <ngx-cursor [pointX]="pointX" [pointY]="pointY"></ngx-cursor> -->
     <div
         #planeWrapper
         class="plane--wrapper"
-        (mousewheel)="onMouseWheel($event)"
         (pointerup)="onMouseUp($event)"
         (pointerdown)="onMouseDown($event)"
-        (pointerout)="onMouseUp($event)"
         (mousedown)="onMouseDown($event)"
         (mouseup)="onMouseUp($event)"
-        (mouseout)="onMouseUp($event)"
-        [style.width]="'595px'"
-        [style.height]="'841px'"
+        [style.width]="width"
+        [style.height]="height"
     >
-        <!-- <ngx-cursor [pointX]="pointX" [pointY]="pointY"></ngx-cursor> -->
-        <app-paper>
+        <app-paper *ngIf="!!planes.length">
             <app-canvas
                 *ngFor="let canvas of planes"
+                [width]="size.width"
+                [height]="size.height"
                 [plane]="canvas"
                 [color]="currentColor"
                 [drawingMode]="currentDrawingMode"

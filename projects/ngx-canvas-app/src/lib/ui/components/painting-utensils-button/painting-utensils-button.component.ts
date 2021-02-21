@@ -18,6 +18,9 @@ export class PaintingUtensilsButtonComponent implements OnInit {
     @Input()
     public isActive = false;
 
+    @Input()
+    public vertical = true;
+
     @Output()
     public clickHandler = new EventEmitter<void>();
 

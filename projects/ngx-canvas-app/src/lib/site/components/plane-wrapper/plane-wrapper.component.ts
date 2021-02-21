@@ -2,9 +2,10 @@ import { PlaneTransformationService } from '../../services/plane-transformation.
 import { PlaneDrawService, Coordinates, DrawingMode } from '../../services/plane-draw.service';
 import { Subscription, BehaviorSubject, Observable } from 'rxjs';
 import { ColorService } from '../../services/color.service';
-import { Plane, PlaneService } from '../../services/plane.service';
+import { Plane, PlaneService, PlaneSize } from '../../services/plane.service';
 import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, OnInit, ViewChild } from '@angular/core';
 import { BaseComponent } from '../../../core/base-components/base.component';
+import { AsyncOperation } from '../../../core/util/async-operation';
 
 @Component({
     selector: 'app-plane-wrapper',
@@ -17,6 +18,18 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
 
     public pointX = 0;
     public pointY = 0;
+
+    public get width(): string {
+        return `${this._size.width}px`;
+    }
+
+    public get height(): string {
+        return `${this._size.height}px`;
+    }
+
+    public get size(): PlaneSize {
+        return this._size;
+    }
 
     public get planes(): Plane[] {
         return this._planes;
@@ -35,13 +48,14 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
     public endDrawingEvent = new EventEmitter<Coordinates>();
 
     private _planes: Plane[] = [];
+    private _size: PlaneSize = { width: 0, height: 0 };
 
     private _color = '';
 
     private _activePlane: Plane;
+    private _loaded = new AsyncOperation();
 
     private drawFn: (event: MouseEvent) => void;
-    private moveFn: (event: MouseEvent) => void;
     private isDrawing = false;
 
     public constructor(
@@ -55,32 +69,10 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
 
     public ngOnInit(): void {
         this.subscriptions.push(...this.getPlaneSubscriptions(), ...this.getColorSubscriptions());
-        this.drawFn = event => {
-            this.onMouseDraw(event);
-        };
-        this.moveFn = event => {
-            this.onMouseMove(event);
-        };
     }
 
     public ngAfterViewInit(): void {
-        this.initDrawListeners();
-    }
-
-    public onMouseWheel(event: WheelEvent): void {
-        if (event.ctrlKey) {
-            if (event.deltaY > 0) {
-                this.planeTransformation.zoomOut();
-            } else {
-                this.planeTransformation.zoomIn();
-            }
-        } else if (event.altKey) {
-            if (event.deltaY > 0) {
-                this.planeTransformation.rotateLeft();
-            } else {
-                this.planeTransformation.rotateRight();
-            }
-        }
+        this._loaded.resolve();
     }
 
     @HostListener('document:keydown', ['$event'])
@@ -98,15 +90,11 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
     public onMouseDown(event: MouseEvent): void {
         this.isDrawing = true;
         this.startDrawingEvent.emit({ x: event.offsetX, y: event.offsetY });
-        // this.initDrawListeners();
-        // this.removeMoveListeners();
     }
 
     public onMouseUp(event: MouseEvent): void {
         this.endDrawingEvent.emit({ x: event.offsetX, y: event.offsetY });
         this.isDrawing = false;
-        // this.removeDrawListeners();
-        // this.initMoveListeners();
     }
 
     public onMouseDraw(event: MouseEvent): void {
@@ -121,31 +109,18 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
         }
     }
 
-    public onMouseMove(event: MouseEvent): void {
-        // this.pointX = event.offsetX;
-        // this.pointY = event.offsetY;
-        // this.planeDrawService.onMove(event);
+    private initPainting(): void {
+        this.drawFn = event => {
+            this.onMouseDraw(event);
+        };
+        this.initDrawListeners();
     }
 
-    private initDrawListeners(): void {
+    private async initDrawListeners(): Promise<void> {
+        await this._loaded;
         this.planeWrapper.nativeElement.addEventListener('mousemove', this.drawFn);
         this.planeWrapper.nativeElement.addEventListener('pointermove', this.drawFn);
     }
-
-    // private initMoveListeners(): void {
-    //     this.planeWrapper.nativeElement.addEventListener('mousemove', this.moveFn);
-    //     this.planeWrapper.nativeElement.addEventListener('pointermove', this.moveFn);
-    // }
-
-    // private removeDrawListeners(): void {
-    //     this.planeWrapper.nativeElement.removeEventListener('mousemove', this.drawFn);
-    //     this.planeWrapper.nativeElement.removeEventListener('pointermove', this.drawFn);
-    // }
-
-    // private removeMoveListeners(): void {
-    //     this.planeWrapper.nativeElement.removeEventListener('mousemove', this.moveFn);
-    //     this.planeWrapper.nativeElement.removeEventListener('pointermove', this.moveFn);
-    // }
 
     private applyTransformation(nextTransformation: string): void {
         if (this.planeWrapper) {
@@ -172,8 +147,9 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
     private getPlaneSubscriptions(): Subscription[] {
         return [
             this.planeService.planesObservable.subscribe(planes => {
-                if (planes) {
+                if (planes && !!planes.length) {
                     this.initPlanes(planes);
+                    this.initPainting();
                 }
             }),
             this.planeTransformation.transformationObservable.subscribe(transformation =>
@@ -182,6 +158,11 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
             this.planeService.getActivePlane().subscribe(activePlane => {
                 this._activePlane = activePlane;
                 this.initActivePlane();
+            }),
+            this.planeService.sizeObservable.subscribe(planeSize => {
+                if (planeSize) {
+                    this._size = planeSize;
+                }
             }),
             this.planeDrawService.getDrawingModeObservable().subscribe(mode => {
                 if (mode) {

@@ -1,7 +1,6 @@
 import { PlaneTransformationService } from '../../services/plane-transformation.service';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { MatSliderChange } from '@angular/material/slider';
 import { BaseComponent } from '../../../core/base-components/base.component';
 
 @Component({
