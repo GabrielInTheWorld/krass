@@ -1,15 +1,16 @@
 <div id="wrapper--wrapper" ngxRingCursor>
-    <div
-        #planeWrapper
-        class="plane--wrapper"
-        (pointerup)="onMouseUp($event)"
-        (pointerdown)="onMouseDown($event)"
-        (mousedown)="onMouseDown($event)"
-        (mouseup)="onMouseUp($event)"
-        [style.width]="width"
-        [style.height]="height"
-    >
-        <app-paper *ngIf="!!planes.length">
+    <div>
+        <div
+            #planeWrapper
+            class="plane--wrapper"
+            (pointerup)="onMouseUp($event)"
+            (pointerdown)="onMouseDown($event)"
+            (mousedown)="onMouseDown($event)"
+            (mouseup)="onMouseUp($event)"
+            [style.width]="width"
+            [style.height]="height"
+            [ngxPaper]="2"
+        >
             <app-canvas
                 *ngFor="let canvas of planes"
                 [width]="size.width"
@@ -22,7 +23,8 @@
                 [startDrawing]="startDrawingEvent"
                 [endDrawing]="endDrawingEvent"
                 [draw]="drawEvent"
+                [clearSiteObservable]="clearSiteObservable"
             ></app-canvas>
-        </app-paper>
+        </div>
     </div>
 </div>

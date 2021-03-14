@@ -8,25 +8,25 @@ import { ColorPickerDialogComponent } from './dialogs/color-picker-dialog/color-
 import { CreateCanvasDialogComponent } from './dialogs/create-canvas-dialog/create-canvas-dialog.component';
 import { ColorTileComponent } from './color-tile/color-tile.component';
 import { FooterComponent } from './footer/footer.component';
-import { PaperComponent } from './paper/paper.component';
 import { MenuItemComponent } from './menu-item/menu-item.component';
 import { TitlebarComponent } from './titlebar/titlebar.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { MaterialComponentsModule } from './material-design/material-components.module';
+import { SizeFieldComponent } from './size-field/size-field.component';
 
 const declarations = [
     PaintingUtensilsButtonComponent,
     CanvasComponent,
     TitlebarComponent,
     MenuItemComponent,
-    PaperComponent,
     FooterComponent,
     ColorTileComponent,
     CreateCanvasDialogComponent,
     ColorPickerDialogComponent,
     DialogTemplateComponent,
     CursorComponent,
-    CustomIconComponent
+    CustomIconComponent,
+    SizeFieldComponent
 ];
 
 @NgModule({

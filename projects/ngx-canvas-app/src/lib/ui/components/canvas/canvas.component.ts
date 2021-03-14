@@ -2,10 +2,8 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, OnDestr
 import { Observable, Subscription } from 'rxjs';
 
 import { BaseComponent } from '../../../core/base-components/base.component';
-import { Coordinates, DrawPoint } from './../../../site/services/plane-draw.service';
+import { Coordinates, DrawingMode, DrawPoint } from './../../../site/services/plane-draw.service';
 import { Plane } from '../../../site/services/plane.service';
-
-type DrawingMode = 'pen' | 'eraser';
 
 @Component({
     selector: 'app-canvas',
@@ -41,6 +39,9 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
 
     @Input()
     public observeDrawing: Observable<DrawPoint>;
+
+    @Input()
+    public clearSiteObservable: Observable<void>;
 
     @Input()
     public set drawingMode(mode: DrawingMode) {
@@ -93,6 +94,7 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         }
         this.initDrawListeners();
         this.initDrawingMode();
+        this.initSubscriptions();
     }
 
     public onMouseDown(event: Coordinates): void {
@@ -156,6 +158,10 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         this.context.closePath();
     }
 
+    private onClear(): void {
+        this.context.clearRect(0, 0, this.width, this.height);
+    }
+
     private initConfig(): void {
         if (this.context) {
             this.setColor(this._color);
@@ -190,6 +196,12 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
             this.draw.subscribe(pointer => this.onMouseMove(pointer)),
             this.observeDrawing.subscribe(input => this.onDrawingInput(input))
         );
+    }
+
+    private initSubscriptions(): void {
+        if (this.clearSiteObservable) {
+            this.subscriptions.push(this.clearSiteObservable.subscribe(() => this.onClear()));
+        }
     }
 
     private removeDrawListeners(): void {

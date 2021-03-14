@@ -53,6 +53,10 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
         return this._color;
     }
 
+    public get clearSiteObservable(): Observable<void> {
+        return this.planeDrawService.getClearSiteObservable();
+    }
+
     public planeMap: { [key: string]: BehaviorSubject<boolean> } = {};
 
     public currentDrawingMode: DrawingMode = 'pen';
@@ -121,7 +125,10 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
         if (this.isDrawing) {
             const coordinates = this.nextPointer;
             this.drawEvent.emit(coordinates);
-            this.planeDrawService.onDraw(this.previousPointer, coordinates, this._activePlane.index);
+            this.planeDrawService.onDraw(
+                { previousPointer: this.previousPointer, nextPointer: coordinates },
+                this._activePlane.index
+            );
         } else {
             this.planeDrawService.onMove(event);
         }

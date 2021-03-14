@@ -10,6 +10,7 @@ import { FootbarComponent } from './components/footbar/footbar.component';
 import { RightSiteComponent } from './components/right-site/right-site.component';
 import { LeftSiteComponent } from './components/left-site/left-site.component';
 import { PaintingUtensilsModule } from './components/painting-utensils/painting-utensils.module';
+import { SizeHandlerComponent } from './components/size-handler/size-handler.component';
 
 const declarations = [
     SiteComponent,
@@ -22,7 +23,7 @@ const declarations = [
 ];
 
 @NgModule({
-    declarations: [...declarations],
+    declarations: [...declarations, SizeHandlerComponent],
     exports: [...declarations, UiModule],
     imports: [CommonModule, UiModule, DragDropModule, PaintingUtensilsModule]
 })

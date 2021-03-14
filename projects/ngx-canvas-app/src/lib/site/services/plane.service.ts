@@ -56,6 +56,10 @@ const CENTIMETER_PER_INCH = 2.54;
     providedIn: 'root'
 })
 export class PlaneService {
+    public get currentSize(): PlaneSize {
+        return this.planeSizeSubject.value;
+    }
+
     public get activePlane(): Plane {
         return this.activePlaneSubject.value;
     }

@@ -28,6 +28,15 @@ export class PaintingUtensilsWrapperComponent implements OnInit {
             mode: 'eraser',
             onClick: mode => this.planeDrawService.setDrawingMode(mode),
             svgIcon: mdiEraser
+        },
+        {
+            label: 'Seite leeren',
+            mode: 'delete',
+            onClick: () => {
+                this.planeDrawService.clearSite();
+                this.planeDrawService.setDrawingMode('pen');
+            },
+            icon: 'delete_outline'
         }
     ];
 
