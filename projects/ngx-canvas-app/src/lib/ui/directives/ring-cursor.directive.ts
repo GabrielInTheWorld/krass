@@ -8,12 +8,22 @@ const BORDER_WIDTH = 2;
 })
 export class RingCursorDirective implements AfterContentInit {
     @Input()
-    public cursorSize = 2;
+    // public ngxRingCursorSize = 2;
+    public set ngxRingCursorSize(nextValue: number) {
+        this._cursorSize = nextValue;
+        this.renderPointerSize();
+    }
+
+    public get ngxRingCursorSize(): number {
+        return this._cursorSize / 2;
+    }
 
     private element: HTMLElement;
     private pointer: HTMLElement;
     private mouseX = -100;
     private mouseY = -100;
+
+    private _cursorSize = 2;
 
     public constructor(private el: ElementRef<HTMLElement>) {}
 
@@ -26,7 +36,7 @@ export class RingCursorDirective implements AfterContentInit {
                 height: '0',
                 width: '0',
                 border: `${BORDER_WIDTH}px solid black`,
-                padding: `${this.cursorSize}px`,
+                padding: `${this.ngxRingCursorSize}px`,
                 borderRadius: '50%',
                 position: 'fixed',
                 left: '0',
@@ -56,12 +66,18 @@ export class RingCursorDirective implements AfterContentInit {
         };
 
         const render = () => {
-            const xCoordinate = this.mouseX - this.cursorSize - BORDER_WIDTH;
-            const yCoordinate = this.mouseY - this.cursorSize - BORDER_WIDTH;
+            const xCoordinate = this.mouseX - this.ngxRingCursorSize - BORDER_WIDTH;
+            const yCoordinate = this.mouseY - this.ngxRingCursorSize - BORDER_WIDTH;
             this.pointer.style.borderColor = 'black';
             this.pointer.style.transform = `translate(${xCoordinate}px, ${yCoordinate}px)`;
             requestAnimationFrame(render);
         };
         requestAnimationFrame(render);
+    }
+
+    private renderPointerSize(): void {
+        if (this.pointer) {
+            this.pointer.style.padding = `${this.ngxRingCursorSize}px`;
+        }
     }
 }

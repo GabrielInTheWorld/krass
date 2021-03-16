@@ -126,10 +126,13 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
     private onDrawingInput(input: DrawPoint): void {
         switch (input.mode) {
             case 'pen':
-                this.onDrawFreeHand(input.previousPointer, input.nextPointer, input.color, 2);
+                this.onDrawFreeHand(input.previousPointer, input.nextPointer, input.color, input.size);
                 break;
             case 'eraser':
-                this.onErase(input.nextPointer);
+                this.onErase(input.nextPointer, input.size);
+                break;
+            case 'delete':
+                this.onClear(input.previousPointer, input.nextPointer);
                 break;
         }
     }
@@ -150,16 +153,19 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         this.context.closePath();
     }
 
-    private onErase(pointer: Coordinates): void {
+    private onErase(pointer: Coordinates, clearSize: number): void {
         this.context.beginPath();
         this.context.globalCompositeOperation = 'destination-out';
-        this.context.arc(pointer.x, pointer.y, 8, 0, Math.PI * 2, false);
+        this.context.arc(pointer.x, pointer.y, clearSize / 2, 0, Math.PI * 2, false);
         this.context.fill();
         this.context.closePath();
     }
 
-    private onClear(): void {
-        this.context.clearRect(0, 0, this.width, this.height);
+    private onClear(
+        firstPointer: Coordinates = { x: 0, y: 0 },
+        secondPointer: Coordinates = { x: this.width, y: this.height }
+    ): void {
+        this.context.clearRect(firstPointer.x, firstPointer.y, secondPointer.x, secondPointer.y);
     }
 
     private initConfig(): void {
@@ -176,7 +182,7 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
                     this.onDrawFreeHand(this.mousePointer, this.secondPointer, this._color, this._strokeWidth);
                 break;
             case 'eraser':
-                this.activeMouseFn = () => this.onErase(this.secondPointer);
+                this.activeMouseFn = () => this.onErase(this.secondPointer, this._strokeWidth);
                 break;
         }
     }

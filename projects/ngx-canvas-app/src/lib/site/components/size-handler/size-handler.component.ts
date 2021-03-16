@@ -1,23 +1,38 @@
 import { PlaneDrawService } from './../../services/plane-draw.service';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
 
 @Component({
-    selector: 'ngx-size-handler',
+    selector: 'app-size-handler',
     templateUrl: './size-handler.component.html',
     styleUrls: ['./size-handler.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 export class SizeHandlerComponent implements OnInit {
-    @Input()
-    public initialValue = 2;
+    // public initialValue = 2;
+    // public value: FormControl
+    public set initialValue(nextValue: number) {
+        this._value = nextValue;
+        this.setSize(nextValue);
+    }
 
-    @Input()
+    public get initialValue(): number {
+        return this._value;
+    }
+
     public min = 1;
 
-    @Input()
     public max = 100;
 
-    public constructor(private planeDraw: PlaneDrawService) {}
+    private _value = 2;
 
-    public ngOnInit(): void {}
+    public constructor(private fb: FormBuilder, private planeDraw: PlaneDrawService) {}
+
+    public ngOnInit(): void {
+        // this.value = this.fb.control('')
+    }
+
+    private setSize(nextValue: number): void {
+        this.planeDraw.setDrawingSize(nextValue);
+    }
 }

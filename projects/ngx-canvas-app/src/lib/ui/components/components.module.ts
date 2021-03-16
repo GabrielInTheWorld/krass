@@ -12,7 +12,6 @@ import { MenuItemComponent } from './menu-item/menu-item.component';
 import { TitlebarComponent } from './titlebar/titlebar.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { MaterialComponentsModule } from './material-design/material-components.module';
-import { SizeFieldComponent } from './size-field/size-field.component';
 
 const declarations = [
     PaintingUtensilsButtonComponent,
@@ -25,8 +24,7 @@ const declarations = [
     ColorPickerDialogComponent,
     DialogTemplateComponent,
     CursorComponent,
-    CustomIconComponent,
-    SizeFieldComponent
+    CustomIconComponent
 ];
 
 @NgModule({

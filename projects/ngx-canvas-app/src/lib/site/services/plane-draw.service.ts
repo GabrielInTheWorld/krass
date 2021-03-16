@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 
 import { ColorService } from './color.service';
 import { PlaneService } from './plane.service';
@@ -23,6 +23,7 @@ export interface DrawPoint {
     nextPointer: Coordinates;
     color: Color;
     layer: number;
+    size: number;
 }
 
 @Injectable({
@@ -31,6 +32,10 @@ export interface DrawPoint {
 export class PlaneDrawService {
     public get currentDrawingMode(): DrawingMode {
         return this.drawingModeSubject.value;
+    }
+
+    private get currentSize(): number {
+        return this.drawSizeSubject.value;
     }
 
     private readonly drawSizeSubject = new BehaviorSubject<number>(2);
@@ -42,7 +47,11 @@ export class PlaneDrawService {
 
     private readonly clearSiteSubject = new Subject<void>();
 
-    public constructor(private colorService: ColorService, private planeService: PlaneService) {}
+    private subscriptions: Subscription[] = [];
+
+    public constructor(private colorService: ColorService, private planeService: PlaneService) {
+        this.init();
+    }
 
     public onDraw(pointers: DrawCoordinates, layer: number, mode: DrawingMode = this.currentDrawingMode): void {
         const { previousPointer, nextPointer } = pointers;
@@ -51,7 +60,8 @@ export class PlaneDrawService {
             nextPointer,
             mode,
             color: this.colorService.currentColor,
-            layer
+            layer,
+            size: this.currentSize
         });
     }
     public onMove(event: Coordinates): void {
@@ -68,7 +78,9 @@ export class PlaneDrawService {
         this.onDraw({ previousPointer: { x: 0, y: 0 }, nextPointer: { x: width, y: height } }, 0, 'delete');
     }
 
-    public setDrawingSize(size: number): void {}
+    public setDrawingSize(size: number): void {
+        this.drawSizeSubject.next(size);
+    }
 
     public setDrawingMode(mode: DrawingMode): void {
         this.drawingModeSubject.next(mode);
@@ -94,11 +106,23 @@ export class PlaneDrawService {
         return this.inputDrawSubject.asObservable();
     }
 
+    public getDrawingSizeObservable(): Observable<number> {
+        return this.drawSizeSubject.asObservable();
+    }
+
     public getIsPaintingEnabledObservable(): Observable<boolean> {
         return this.enablePaintingSubject.asObservable();
     }
 
     public getClearSiteObservable(): Observable<void> {
         return this.clearSiteSubject.asObservable();
+    }
+
+    private init(): void {
+        this.subscriptions.push(this.colorService.getColor().subscribe(() => this.onChangeColor()));
+    }
+
+    private onChangeColor(): void {
+        this.setDrawingMode('pen');
     }
 }

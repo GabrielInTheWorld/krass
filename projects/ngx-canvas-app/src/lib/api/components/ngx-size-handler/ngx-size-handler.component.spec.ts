@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SizeFieldComponent } from './size-field.component';
+import { NgxSizeHandlerComponent } from './ngx-size-handler.component';
 
-describe('SizeFieldComponent', () => {
-  let component: SizeFieldComponent;
-  let fixture: ComponentFixture<SizeFieldComponent>;
+describe('NgxSizeHandlerComponent', () => {
+  let component: NgxSizeHandlerComponent;
+  let fixture: ComponentFixture<NgxSizeHandlerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SizeFieldComponent ]
+      declarations: [ NgxSizeHandlerComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SizeFieldComponent);
+    fixture = TestBed.createComponent(NgxSizeHandlerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

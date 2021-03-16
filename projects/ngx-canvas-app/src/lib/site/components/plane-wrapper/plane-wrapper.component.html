@@ -1,4 +1,4 @@
-<div id="wrapper--wrapper" ngxRingCursor>
+<div id="wrapper--wrapper" ngxRingCursor [ngxRingCursorSize]="strokeWidth">
     <div>
         <div
             #planeWrapper
@@ -17,6 +17,7 @@
                 [height]="size.height"
                 [plane]="canvas"
                 [color]="currentColor"
+                [strokeWidth]="strokeWidth"
                 [drawingMode]="currentDrawingMode"
                 [observeDrawing]="inputDrawingEvent"
                 [isActive]="getActivePlaneObservableByPlane(canvas)"

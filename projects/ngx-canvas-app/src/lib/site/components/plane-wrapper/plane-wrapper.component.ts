@@ -33,6 +33,10 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
         this.initPainting();
     }
 
+    public get strokeWidth(): number {
+        return this._strokeWidth;
+    }
+
     public get width(): string {
         return `${this._size.width}px`;
     }
@@ -70,6 +74,7 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
     private _size: PlaneSize = { width: 0, height: 0 };
 
     private _color = '';
+    private _strokeWidth = 2;
 
     private _activePlane: Plane;
     private _loaded = new AsyncOperation();
@@ -208,7 +213,8 @@ export class PlaneWrapperComponent extends BaseComponent implements OnInit, Afte
             }),
             this.planeDrawService.getDrawingInputObservable().subscribe(input => {
                 this.inputDrawingEvent.emit(input);
-            })
+            }),
+            this.planeDrawService.getDrawingSizeObservable().subscribe(strokeWidth => (this._strokeWidth = strokeWidth))
         ];
     }
 

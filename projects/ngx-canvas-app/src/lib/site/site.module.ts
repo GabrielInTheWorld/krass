@@ -15,6 +15,7 @@ import { SizeHandlerComponent } from './components/size-handler/size-handler.com
 const declarations = [
     SiteComponent,
     ColorFieldComponent,
+    SizeHandlerComponent,
     PlaneHandlerComponent,
     PlaneWrapperComponent,
     FootbarComponent,
@@ -23,7 +24,7 @@ const declarations = [
 ];
 
 @NgModule({
-    declarations: [...declarations, SizeHandlerComponent],
+    declarations: [...declarations],
     exports: [...declarations, UiModule],
     imports: [CommonModule, UiModule, DragDropModule, PaintingUtensilsModule]
 })
