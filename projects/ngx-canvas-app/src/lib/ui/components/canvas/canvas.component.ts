@@ -129,7 +129,7 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
                 this.onDrawFreeHand(input.previousPointer, input.nextPointer, input.color, input.size);
                 break;
             case 'eraser':
-                this.onErase(input.nextPointer, input.size);
+                this.onErase(input.previousPointer, input.nextPointer, input.size);
                 break;
             case 'delete':
                 this.onClear(input.previousPointer, input.nextPointer);
@@ -143,21 +143,25 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         color: string,
         strokeWidth: number
     ): void {
-        this.context.beginPath();
-        this.context.globalCompositeOperation = 'source-over';
-        this.context.moveTo(firstPointer.x, firstPointer.y);
-        this.context.lineTo(secondPointer.x, secondPointer.y);
+        this.context.lineJoin = 'round';
         this.context.strokeStyle = color;
         this.context.lineWidth = strokeWidth;
-        this.context.stroke();
+        this.context.globalCompositeOperation = 'source-over';
+        this.context.beginPath();
+        this.context.moveTo(firstPointer.x, firstPointer.y);
+        this.context.lineTo(secondPointer.x, secondPointer.y);
         this.context.closePath();
+        this.context.stroke();
     }
 
-    private onErase(pointer: Coordinates, clearSize: number): void {
-        this.context.beginPath();
+    private onErase(firstPointer: Coordinates, secondPointer: Coordinates, clearSize: number): void {
+        this.context.lineWidth = clearSize;
         this.context.globalCompositeOperation = 'destination-out';
-        this.context.arc(pointer.x, pointer.y, clearSize / 2, 0, Math.PI * 2, false);
-        this.context.fill();
+        this.context.beginPath();
+        // this.context.arc(secondPointer.x, secondPointer.y, clearSize / 2, 0, Math.PI * 2, false);
+        // this.context.fill();
+        this.context.moveTo(firstPointer.x, firstPointer.y);
+        this.context.lineTo(secondPointer.x, secondPointer.y);
         this.context.closePath();
     }
 
@@ -182,7 +186,7 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
                     this.onDrawFreeHand(this.mousePointer, this.secondPointer, this._color, this._strokeWidth);
                 break;
             case 'eraser':
-                this.activeMouseFn = () => this.onErase(this.secondPointer, this._strokeWidth);
+                this.activeMouseFn = () => this.onErase(this.mousePointer, this.secondPointer, this._strokeWidth);
                 break;
         }
     }
