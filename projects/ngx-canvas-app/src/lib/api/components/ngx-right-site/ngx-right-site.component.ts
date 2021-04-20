@@ -1,15 +1,12 @@
-import { PlaneService, PlaneAttributes } from '../../services/plane.service';
 import { Component, OnInit } from '@angular/core';
+import { PlaneAttributes, PlaneService } from '../../../site/services/plane.service';
 
-/**
- * @deprecated
- */
 @Component({
-    selector: 'app-right-site',
-    templateUrl: './right-site.component.html',
-    styleUrls: ['./right-site.component.scss']
+    selector: 'ngx-right-site',
+    templateUrl: './ngx-right-site.component.html',
+    styleUrls: ['./ngx-right-site.component.scss']
 })
-export class RightSiteComponent implements OnInit {
+export class NgxRightSiteComponent implements OnInit {
     public constructor(private planeService: PlaneService) {}
 
     public ngOnInit(): void {}

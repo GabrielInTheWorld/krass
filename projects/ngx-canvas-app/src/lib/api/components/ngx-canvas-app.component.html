@@ -1,4 +1,4 @@
-<app-site
+<!-- <app-site
     [hasToolbar]="hasToolbar"
     [locationPaintingUtensils]="locationPaintingUtensils"
     [locationPaneHandler]="locationPaneHandler"
@@ -11,7 +11,33 @@
     (cursorDraw)="cursorDraw.emit($event)"
     (cursorMove)="cursorMove.emit($event)"
 >
-</app-site>
+</app-site> -->
+<div class="ngx-light-theme ngx-canvas-app--container">
+    <ng-container *ngIf="hasToolbar">
+        <app-titlebar>
+            <app-menu-item (buttonClick)="openCreateDialog()">Start</app-menu-item>
+        </app-titlebar>
+        <app-titlebar>
+            <ngx-size-handler></ngx-size-handler>
+        </app-titlebar>
+    </ng-container>
+    <div class="site--wrapper">
+        <div class="row-aligned">
+            <ngx-left-site> </ngx-left-site>
+            <div class="column-aligned">
+                <div #appContent class="app--content">
+                    <ngx-plane-wrapper
+                        class="plane--wrapper"
+                        [isPaintingEnabled]="isPaintingEnabled"
+                    ></ngx-plane-wrapper>
+                    <app-footbar *ngIf="showFooter"></app-footbar>
+                </div>
+            </div>
+            <ngx-right-site></ngx-right-site>
+        </div>
+    </div>
+</div>
+
 <ngx-container-dialog *ngIf="isVisible">
     <span #ref>
         <ng-container *ngTemplateOutlet="content"></ng-container>

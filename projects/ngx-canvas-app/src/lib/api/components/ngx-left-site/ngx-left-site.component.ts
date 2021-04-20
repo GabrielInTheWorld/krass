@@ -1,14 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-/**
- * @deprecated
- */
 @Component({
-    selector: 'app-left-site',
-    templateUrl: './left-site.component.html',
-    styleUrls: ['./left-site.component.scss']
+    selector: 'ngx-left-site',
+    templateUrl: './ngx-left-site.component.html',
+    styleUrls: ['./ngx-left-site.component.scss']
 })
-export class LeftSiteComponent implements OnInit {
+export class NgxLeftSiteComponent implements OnInit {
     @Input()
     public isVisible = true;
 

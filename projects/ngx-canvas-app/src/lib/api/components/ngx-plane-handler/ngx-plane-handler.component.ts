@@ -1,17 +1,14 @@
-import { Plane, PlaneService } from '../../services/plane.service';
-import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../../../core/base-components/base.component';
+import { Plane, PlaneService } from '../../../site/services/plane.service';
 
-/**
- * @deprecated
- */
 @Component({
-    selector: 'app-plane-handler',
-    templateUrl: './plane-handler.component.html',
-    styleUrls: ['./plane-handler.component.scss']
+    selector: 'ngx-plane-handler',
+    templateUrl: './ngx-plane-handler.component.html',
+    styleUrls: ['./ngx-plane-handler.component.scss']
 })
-export class PlaneHandlerComponent extends BaseComponent implements OnInit {
+export class NgxPlaneHandlerComponent extends BaseComponent implements OnInit {
     public planes: Plane[] = [];
 
     constructor(private planeService: PlaneService) {

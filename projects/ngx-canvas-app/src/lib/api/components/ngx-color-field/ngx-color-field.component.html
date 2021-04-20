@@ -1,1 +1,7 @@
-<app-color-field></app-color-field>
+<div class="color-field--wrapper flex--center">
+    <app-color-tile
+        *ngFor="let color of colors"
+        [backgroundColor]="color"
+        (clickColor)="changeColor($event)"
+    ></app-color-tile>
+</div>

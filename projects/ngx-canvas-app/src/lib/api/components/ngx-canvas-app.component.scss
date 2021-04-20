@@ -1,0 +1,36 @@
+.ngx-canvas-app--container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.site--wrapper {
+    height: 100%;
+
+    .row-aligned {
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .column-aligned {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.app--content {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-content: stretch;
+    text-align: center;
+    overflow-y: hidden;
+    padding: 0;
+    background: #eee;
+
+    .plane--wrapper {
+        flex: 2;
+    }
+}

@@ -1,0 +1,31 @@
+<div id="wrapper--wrapper" ngxRingCursor [ngxRingCursorSize]="strokeWidth">
+    <div>
+        <div
+            #planeWrapper
+            class="plane--wrapper"
+            (pointerup)="onMouseUp($event)"
+            (pointerdown)="onMouseDown($event)"
+            (mousedown)="onMouseDown($event)"
+            (mouseup)="onMouseUp($event)"
+            [style.width]="width"
+            [style.height]="height"
+            [ngxPaper]="2"
+        >
+            <app-canvas
+                *ngFor="let canvas of planes"
+                [width]="size.width"
+                [height]="size.height"
+                [plane]="canvas"
+                [color]="currentColor"
+                [strokeWidth]="strokeWidth"
+                [drawingMode]="currentDrawingMode"
+                [observeDrawing]="inputDrawingEvent"
+                [isActive]="getActivePlaneObservableByPlane(canvas)"
+                [startDrawing]="startDrawingEvent"
+                [endDrawing]="endDrawingEvent"
+                [draw]="drawEvent"
+                [clearSiteObservable]="clearSiteObservable"
+            ></app-canvas>
+        </div>
+    </div>
+</div>

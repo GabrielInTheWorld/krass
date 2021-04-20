@@ -2,6 +2,9 @@ import { PlaneDrawService } from './../../services/plane-draw.service';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 
+/**
+ * @deprecated
+ */
 @Component({
     selector: 'app-size-handler',
     templateUrl: './size-handler.component.html',

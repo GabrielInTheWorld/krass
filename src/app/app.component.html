@@ -1,17 +1,10 @@
 <div class="app-router-wrapper">
-    <ngx-canvas-app
-        [backgroundLayer]="backgroundLayer"
-        [locationPaintingUtensils]="'bottom'"
-        [showPlaneHandler]="false"
-        [showFooter]="false"
-        [hasToolbar]="false"
-        (cursorDraw)="drawSubject.next($event)"
-    >
+    <ngx-canvas-app [backgroundLayer]="backgroundLayer" (cursorDraw)="drawSubject.next($event)">
         <ngx-size-handler></ngx-size-handler>
         <ngx-color-field></ngx-color-field>
     </ngx-canvas-app>
 
-    <div class="app-canvas-preview">
+    <!-- <div class="app-canvas-preview">
         <ngx-canvas-app
             [showFooter]="false"
             [showPaintingUtensils]="false"
@@ -20,5 +13,5 @@
             [isPaintingEnabled]="false"
             [observeDrawing]="drawSubject.asObservable()"
         ></ngx-canvas-app>
-    </div>
+    </div> -->
 </div>

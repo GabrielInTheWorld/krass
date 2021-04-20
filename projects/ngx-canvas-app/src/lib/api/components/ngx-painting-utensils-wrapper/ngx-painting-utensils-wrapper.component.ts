@@ -1,6 +1,6 @@
-import { DrawingMode, PlaneDrawService } from '../../../services/plane-draw.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { mdiEraser } from '@mdi/js';
+import { DrawingMode, PlaneDrawService } from '../../../site/services/plane-draw.service';
 
 export interface UtensilsButton {
     label: string;
@@ -10,15 +10,12 @@ export interface UtensilsButton {
     svgIcon?: string;
 }
 
-/**
- * @deprecated
- */
 @Component({
     selector: 'ngx-painting-utensils-wrapper',
-    templateUrl: './painting-utensils-wrapper.component.html',
-    styleUrls: ['./painting-utensils-wrapper.component.scss']
+    templateUrl: './ngx-painting-utensils-wrapper.component.html',
+    styleUrls: ['./ngx-painting-utensils-wrapper.component.scss']
 })
-export class PaintingUtensilsWrapperComponent implements OnInit {
+export class NgxPaintingUtensilsWrapperComponent implements OnInit {
     public readonly utensilsButtons: UtensilsButton[] = [
         {
             label: 'Stift',

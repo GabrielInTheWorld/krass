@@ -1,1 +1,13 @@
-<app-size-handler></app-size-handler>
+<div class="size-handler--wrapper">
+    <mat-slider
+        [value]="initialValue"
+        [min]="min"
+        [max]="max"
+        thumbLabel
+        tickInterval="1"
+        (input)="initialValue = $event.value"
+    ></mat-slider>
+    <mat-form-field>
+        <input matInput [(ngModel)]="initialValue" />
+    </mat-form-field>
+</div>

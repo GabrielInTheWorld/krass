@@ -11,6 +11,9 @@ import { BackgroundLayer, PlaneService } from './services/plane.service';
 
 export type ScreenLocation = 'left' | 'top' | 'right' | 'bottom';
 
+/**
+ * @deprecated
+ */
 @Component({
     selector: 'app-site',
     templateUrl: './site.component.html',

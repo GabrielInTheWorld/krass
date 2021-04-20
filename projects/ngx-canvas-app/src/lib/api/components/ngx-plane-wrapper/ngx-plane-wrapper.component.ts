@@ -1,32 +1,19 @@
-import {
-    AfterViewInit,
-    Component,
-    ElementRef,
-    EventEmitter,
-    HostListener,
-    Input,
-    OnInit,
-    ViewChild
-} from '@angular/core';
-import { Subscription, BehaviorSubject, Observable } from 'rxjs';
-
-import { AsyncOperation } from '../../../core/util/async-operation';
+import { AfterViewInit, EventEmitter, HostListener } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { BaseComponent } from '../../../core/base-components/base.component';
-import { ColorService } from '../../services/color.service';
-import { DrawPoint } from './../../services/plane-draw.service';
-import { PlaneDrawService, Coordinates, DrawingMode } from '../../services/plane-draw.service';
-import { PlaneTransformationService } from '../../services/plane-transformation.service';
-import { Plane, PlaneService, PlaneSize } from '../../services/plane.service';
+import { AsyncOperation } from '../../../core/util/async-operation';
+import { ColorService } from '../../../site/services/color.service';
+import { Coordinates, DrawingMode, DrawPoint, PlaneDrawService } from '../../../site/services/plane-draw.service';
+import { PlaneTransformationService } from '../../../site/services/plane-transformation.service';
+import { Plane, PlaneService, PlaneSize } from '../../../site/services/plane.service';
 
-/**
- * @deprecated
- */
 @Component({
-    selector: 'app-plane-wrapper',
-    templateUrl: './plane-wrapper.component.html',
-    styleUrls: ['./plane-wrapper.component.scss']
+    selector: 'ngx-plane-wrapper',
+    templateUrl: './ngx-plane-wrapper.component.html',
+    styleUrls: ['./ngx-plane-wrapper.component.scss']
 })
-export class PlaneWrapperComponent extends BaseComponent implements OnInit, AfterViewInit {
+export class NgxPlaneWrapperComponent extends BaseComponent implements OnInit, AfterViewInit {
     @ViewChild('planeWrapper')
     public readonly planeWrapper: ElementRef<HTMLElement>;
 

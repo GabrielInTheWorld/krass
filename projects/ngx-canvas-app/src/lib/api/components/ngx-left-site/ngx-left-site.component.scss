@@ -1,0 +1,22 @@
+$size: 40px;
+
+.left-site--toolbar {
+    &.vertical {
+        width: $size;
+        height: 100%;
+        flex: 1 1 $size;
+        border-right: 1px solid rgba(0, 0, 0, 0.3);
+        border-left: 1px solid rgba(0, 0, 0, 0.3);
+    }
+    &.horizontal {
+        height: $size;
+        width: 100%;
+        flex: 1;
+        border-top: 1px solid rgba(0, 0, 0, 0.3);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    .left-site--inner-container {
+        padding: 2px;
+    }
+}

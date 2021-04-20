@@ -1,9 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ColorService } from '../../../services/color.service';
 
-/**
- * @deprecated
- */
+import { ColorService } from '../../../site/services/color.service';
+
 @Component({
     selector: 'ngx-painting-utensils-color-chooser',
     templateUrl: './painting-utensils-color-chooser.component.html',

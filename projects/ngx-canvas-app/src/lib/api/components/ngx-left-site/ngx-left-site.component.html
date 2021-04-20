@@ -1,0 +1,10 @@
+<div
+    class="left-site--toolbar"
+    [ngClass]="{ vertical: vertical, horizontal: !vertical }"
+    [ngStyle]="{ display: isVisible ? 'inline-block' : 'none' }"
+>
+    <div class="left-site--inner-container">
+        <ngx-painting-utensils-wrapper [vertical]="vertical"></ngx-painting-utensils-wrapper>
+        <ng-content select="[content]"></ng-content>
+    </div>
+</div>

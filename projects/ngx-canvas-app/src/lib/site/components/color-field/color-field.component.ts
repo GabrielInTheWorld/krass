@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ColorService } from '../../services/color.service';
 
+/**
+ * @deprecated
+ */
 @Component({
     selector: 'app-color-field',
     templateUrl: './color-field.component.html',
