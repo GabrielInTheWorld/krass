@@ -1,31 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UiModule } from '../ui/ui.module';
-import { ColorFieldComponent } from './components/color-field/color-field.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { SiteComponent } from './site.component';
-import { PlaneHandlerComponent } from './components/plane-handler/plane-handler.component';
-import { PlaneWrapperComponent } from './components/plane-wrapper/plane-wrapper.component';
 import { FootbarComponent } from './components/footbar/footbar.component';
-import { RightSiteComponent } from './components/right-site/right-site.component';
-import { LeftSiteComponent } from './components/left-site/left-site.component';
-import { PaintingUtensilsModule } from './components/painting-utensils/painting-utensils.module';
-import { SizeHandlerComponent } from './components/size-handler/size-handler.component';
 
-const declarations = [
-    SiteComponent,
-    ColorFieldComponent,
-    SizeHandlerComponent,
-    PlaneHandlerComponent,
-    PlaneWrapperComponent,
-    FootbarComponent,
-    RightSiteComponent,
-    LeftSiteComponent
-];
+const declarations = [FootbarComponent];
 
 @NgModule({
     declarations: [...declarations],
     exports: [...declarations, UiModule],
-    imports: [CommonModule, UiModule, DragDropModule, PaintingUtensilsModule]
+    imports: [CommonModule, UiModule, DragDropModule]
 })
 export class SiteModule {}

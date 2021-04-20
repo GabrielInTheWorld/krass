@@ -55,6 +55,7 @@ export class RingCursorDirective implements AfterContentInit {
         this.element.onmousemove = mouse => {
             this.mouseX = mouse.clientX;
             this.mouseY = mouse.clientY;
+            this.updatePointer();
         };
 
         this.element.onmouseenter = mouse => {
@@ -66,18 +67,27 @@ export class RingCursorDirective implements AfterContentInit {
         };
 
         const render = () => {
+            console.log('render');
             const xCoordinate = this.mouseX - this.ngxRingCursorSize - BORDER_WIDTH;
             const yCoordinate = this.mouseY - this.ngxRingCursorSize - BORDER_WIDTH;
             this.pointer.style.borderColor = 'black';
             this.pointer.style.transform = `translate(${xCoordinate}px, ${yCoordinate}px)`;
-            requestAnimationFrame(render);
+            // requestAnimationFrame(render);
         };
-        requestAnimationFrame(render);
+        // requestAnimationFrame(render);
     }
 
     private renderPointerSize(): void {
         if (this.pointer) {
             this.pointer.style.padding = `${this.ngxRingCursorSize}px`;
         }
+    }
+
+    private updatePointer(): void {
+        // console.log('update');
+        const xCoordinate = this.mouseX - this.ngxRingCursorSize - BORDER_WIDTH;
+        const yCoordinate = this.mouseY - this.ngxRingCursorSize - BORDER_WIDTH;
+        this.pointer.style.borderColor = 'black';
+        this.pointer.style.transform = `translate(${xCoordinate}px, ${yCoordinate}px)`;
     }
 }
