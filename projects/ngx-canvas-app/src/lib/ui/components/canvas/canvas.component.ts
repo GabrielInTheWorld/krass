@@ -1,4 +1,13 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import {
+    AfterViewInit,
+    Component,
+    ElementRef,
+    Input,
+    OnInit,
+    ViewChild,
+    OnDestroy,
+    ChangeDetectorRef
+} from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
 import { BaseComponent } from '../../../core/base-components/base.component';
@@ -76,7 +85,7 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
 
     private activeMouseFn: () => void = () => {};
 
-    public constructor() {
+    public constructor(private cd: ChangeDetectorRef) {
         super();
     }
 
@@ -225,8 +234,10 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         this.activeSubscription = observable.subscribe(isActive => {
             if (isActive) {
                 this.initDrawListeners();
+                this.cd.reattach();
             } else {
                 this.removeDrawListeners();
+                this.cd.detach();
             }
         });
     }
