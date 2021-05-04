@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { CreateCanvasDialogComponent } from '../../ui/components/dialogs/create-canvas-dialog/create-canvas-dialog.component';
 import { infoDialogOptions } from '../../ui/components/dialogs/dialog-options';
-import { Coordinates, DrawPoint, PlaneDrawService } from '../../site/services/plane-draw.service';
+import { Coordinate, DrawPoint, PlaneDrawService } from '../../site/services/plane-draw.service';
 import { PlaneTransformationService } from '../../site/services/plane-transformation.service';
 import { BackgroundLayer, PlaneService } from '../../site/services/plane.service';
 import { ScreenLocation } from '../../site/site.component';
@@ -49,7 +49,7 @@ export class NgxCanvasAppComponent implements OnInit, AfterViewInit {
     public isPaintingEnabled = true;
 
     @Output()
-    public cursorMove = new EventEmitter<Coordinates>();
+    public cursorMove = new EventEmitter<Coordinate>();
 
     @Output()
     public cursorDraw = new EventEmitter<DrawPoint>();

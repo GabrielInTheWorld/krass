@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { BaseComponent } from '../core/base-components/base.component';
 import { CreateCanvasDialogComponent } from '../ui/components/dialogs/create-canvas-dialog/create-canvas-dialog.component';
 import { infoDialogOptions } from '../ui/components/dialogs/dialog-options';
-import { Coordinates, DrawPoint, PlaneDrawService } from './services/plane-draw.service';
+import { Coordinate, DrawPoint, PlaneDrawService } from './services/plane-draw.service';
 import { PlaneTransformationService } from './services/plane-transformation.service';
 import { BackgroundLayer, PlaneService } from './services/plane.service';
 
@@ -51,7 +51,7 @@ export class SiteComponent extends BaseComponent implements OnInit, AfterViewIni
     public isPaintingEnabled = true;
 
     @Output()
-    public cursorMove = new EventEmitter<Coordinates>();
+    public cursorMove = new EventEmitter<Coordinate>();
 
     @Output()
     public cursorDraw = new EventEmitter<DrawPoint>();

@@ -1,31 +1,28 @@
 <div id="wrapper--wrapper" ngxRingCursor [ngxRingCursorSize]="strokeWidth">
-    <div>
+    <div id="firstChild" class="flex--center">
         <div
             #planeWrapper
             class="plane--wrapper"
             (pointerup)="onMouseUp($event)"
             (pointerdown)="onMouseDown($event)"
-            (mousedown)="onMouseDown($event)"
-            (mouseup)="onMouseUp($event)"
             [style.width]="width"
             [style.height]="height"
             [ngxPaper]="2"
         >
-            <app-canvas
+            <ngx-canvas
+                [isPreview]="true"
+                [previewDrawObservable]="previewDrawEvent"
+                [clearSiteObservable]="previewClearSubject.asObservable()"
+            ></ngx-canvas>
+            <!-- <canvas #preview id="preview" [width]="size.width" [height]="size.height"></canvas> -->
+            <ngx-canvas
                 *ngFor="let canvas of planes"
-                [width]="size.width"
-                [height]="size.height"
                 [plane]="canvas"
-                [color]="currentColor"
-                [strokeWidth]="strokeWidth"
-                [drawingMode]="currentDrawingMode"
+                [drawObservable]="drawEvent"
                 [observeDrawing]="inputDrawingEvent"
-                [isActive]="getActivePlaneObservableByPlane(canvas)"
-                [startDrawing]="startDrawingEvent"
-                [endDrawing]="endDrawingEvent"
-                [draw]="drawEvent"
                 [clearSiteObservable]="clearSiteObservable"
-            ></app-canvas>
+            ></ngx-canvas>
+            <!-- <canvas *ngFor="let canvas of planes.slice(1)" [height]="height" [width]="width"></canvas> -->
         </div>
     </div>
 </div>

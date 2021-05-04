@@ -5,22 +5,23 @@ import { ColorService } from './color.service';
 import { PlaneService } from './plane.service';
 
 export type Color = string;
-export type DrawingMode = 'pen' | 'eraser' | 'delete';
+export type DrawingMode = 'pen' | 'eraser' | 'delete' | 'circle' | 'rectangle';
 
-export interface DrawCoordinates {
-    previousPointer: Coordinates;
-    nextPointer: Coordinates;
+export interface DrawCoordinate {
+    previousPointer: Coordinate;
+    nextPointer: Coordinate;
 }
 
-export interface Coordinates {
+export interface Coordinate {
     x: number;
     y: number;
 }
 
 export interface DrawPoint {
     mode: DrawingMode;
-    previousPointer: Coordinates;
-    nextPointer: Coordinates;
+    drawCoordinates: DrawCoordinate[];
+    // previousPointer: Coordinates;
+    // nextPointer: Coordinates;
     color: Color;
     layer: number;
     size: number;
@@ -34,14 +35,14 @@ export class PlaneDrawService {
         return this.drawingModeSubject.value;
     }
 
-    private get currentSize(): number {
+    public get currentSize(): number {
         return this.drawSizeSubject.value;
     }
 
-    private readonly drawSizeSubject = new BehaviorSubject<number>(2);
+    private readonly drawSizeSubject = new BehaviorSubject<number>(4);
     private readonly drawSubject = new BehaviorSubject<DrawPoint>(null);
     private readonly inputDrawSubject = new BehaviorSubject<DrawPoint>(null);
-    private readonly moveSubject = new BehaviorSubject<Coordinates>(null);
+    private readonly moveSubject = new BehaviorSubject<Coordinate>(null);
     private readonly drawingModeSubject = new BehaviorSubject<DrawingMode>('pen');
     private readonly enablePaintingSubject = new BehaviorSubject<boolean>(true);
 
@@ -53,18 +54,19 @@ export class PlaneDrawService {
         this.init();
     }
 
-    public onDraw(pointers: DrawCoordinates, layer: number, mode: DrawingMode = this.currentDrawingMode): void {
-        const { previousPointer, nextPointer } = pointers;
+    public onDraw(drawCoordinate: DrawCoordinate, layer: number, mode: DrawingMode = this.currentDrawingMode): void {
+        // const { previousPointer, nextPointer } = pointers;
         this.drawSubject.next({
-            previousPointer,
-            nextPointer,
+            // previousPointer,
+            // nextPointer,
+            drawCoordinates: [drawCoordinate],
             mode,
             color: this.colorService.currentColor,
             layer,
             size: this.currentSize
         });
     }
-    public onMove(event: Coordinates): void {
+    public onMove(event: Coordinate): void {
         this.moveSubject.next({ ...event });
     }
 
@@ -94,7 +96,7 @@ export class PlaneDrawService {
         return this.drawSubject.asObservable();
     }
 
-    public getMoveObservable(): Observable<Coordinates> {
+    public getMoveObservable(): Observable<Coordinate> {
         return this.moveSubject.asObservable();
     }
 
