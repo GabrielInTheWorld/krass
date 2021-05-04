@@ -195,12 +195,14 @@ export class NgxPlaneWrapperComponent extends BaseComponent implements OnInit, A
     private addSpecifcDrawPoint(
         previousPointer: Coordinate,
         nextPointer: Coordinate,
-        optionalArgs: { mode?: DrawingMode; color?: Color; size?: number } = {
+        optionalArgs: { mode?: DrawingMode; color?: Color; size?: number } = {}
+    ): void {
+        optionalArgs = {
             mode: this.planeDrawService.currentDrawingMode,
             size: this.planeDrawService.currentSize,
-            color: this.currentColor
-        }
-    ): void {
+            color: this.currentColor,
+            ...optionalArgs
+        };
         const drawCoordinate: DrawCoordinate = {
             previousPointer,
             nextPointer

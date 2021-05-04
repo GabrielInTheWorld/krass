@@ -9,19 +9,18 @@
             [style.height]="height"
             [ngxPaper]="2"
         >
-            <ngx-canvas
-                [isPreview]="true"
+            <ngx-preview-canvas
                 [previewDrawObservable]="previewDrawEvent"
                 [clearSiteObservable]="previewClearSubject.asObservable()"
-            ></ngx-canvas>
+            ></ngx-preview-canvas>
             <!-- <canvas #preview id="preview" [width]="size.width" [height]="size.height"></canvas> -->
-            <ngx-canvas
+            <ngx-layer-canvas
                 *ngFor="let canvas of planes"
                 [plane]="canvas"
                 [drawObservable]="drawEvent"
                 [observeDrawing]="inputDrawingEvent"
                 [clearSiteObservable]="clearSiteObservable"
-            ></ngx-canvas>
+            ></ngx-layer-canvas>
             <!-- <canvas *ngFor="let canvas of planes.slice(1)" [height]="height" [width]="width"></canvas> -->
         </div>
     </div>

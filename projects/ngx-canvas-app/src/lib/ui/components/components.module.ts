@@ -13,10 +13,14 @@ import { TitlebarComponent } from './titlebar/titlebar.component';
 import { CanvasComponent } from './canvas/canvas.component';
 import { MaterialComponentsModule } from './material-design/material-components.module';
 import { PaintingUtensilsColorChooserComponent } from './painting-utensils-color-chooser/painting-utensils-color-chooser.component';
+import { PreviewCanvasComponent } from './canvas/preview-canvas.component';
+import { LayerCanvasComponent } from './canvas/layer-canvas.component';
 
 const declarations = [
     PaintingUtensilsButtonComponent,
-    CanvasComponent,
+    // CanvasComponent,
+    PreviewCanvasComponent,
+    LayerCanvasComponent,
     TitlebarComponent,
     MenuItemComponent,
     FooterComponent,

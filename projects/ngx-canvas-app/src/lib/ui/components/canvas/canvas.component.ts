@@ -23,40 +23,21 @@ import {
 import { PlaneService, Plane } from '../../../site/services/plane.service';
 
 @Component({
-    selector: 'ngx-canvas',
-    templateUrl: './canvas.component.html',
-    styleUrls: ['./canvas.component.scss'],
+    // selector: 'ngx-canvas',
+    // templateUrl: './canvas.component.html',
+    // styleUrls: ['./canvas.component.scss'],
+    template: '',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy, AfterViewInit {
+export abstract class CanvasComponent extends BaseComponent implements OnInit, OnDestroy, AfterViewInit {
     @ViewChild('canvas', { static: true })
     public readonly canvasWrapper: ElementRef<HTMLCanvasElement>;
 
-    @Input()
-    public isPreview = false;
+    // @Input()
+    // public isPreview = false;
 
     @Input()
     public plane: Plane;
-
-    // @Input()
-    // public set color(color: string) {
-    //     this._color = color;
-    //     this.initConfig();
-    // }
-
-    // @Input()
-    // public set isActive(active: Observable<boolean>) {
-    //     this.subscribeToActive(active);
-    // }
-
-    // @Input()
-    // public startDrawing: Observable<Coordinate>;
-
-    // @Input()
-    // public draw: Observable<Coordinate>;
-
-    // @Input()
-    // public endDrawing: Observable<Coordinate>;
 
     @Input()
     public observeDrawing: Observable<DrawPoint>;
@@ -70,50 +51,25 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
     @Input()
     public clearSiteObservable: Observable<void>;
 
-    // @Input()
-    // public set drawingMode(mode: DrawingMode) {
-    //     this._drawingMode = mode;
-    //     // this.initDrawingMode();
-    // }
-
-    // @Input()
     public width = 210;
 
-    // @Input()
     public height = 297;
 
-    // @Input()
-    // public set strokeWidth(width: number) {
-    //     this._strokeWidth = width;
-    //     this.initConfig();
-    // }
-
-    public get zIndex(): number {
+    public abstract get zIndex(): number; /* {
         if (this.isPreview) {
             return 1000;
         } else {
             return this.plane?.index || 0;
         }
-    }
+    } */
 
-    private canvas: HTMLCanvasElement;
+    protected canvas: HTMLCanvasElement;
 
-    private context: CanvasRenderingContext2D;
-
-    // private mousePointer: Coordinate = { x: 0, y: 0 };
-    // private secondPointer: Coordinate = { x: 0, y: 0 };
-
-    // private activeSubscription: Subscription = null;
-
-    // private _strokeWidth = 2;
-    // private _color = '#000';
-    // private _drawingMode: DrawingMode = 'pen';
-
-    // private activeMouseFn: () => void = () => {};
+    protected context: CanvasRenderingContext2D;
 
     public constructor(
-        private cd: ChangeDetectorRef,
-        private planeService: PlaneService,
+        protected cd: ChangeDetectorRef,
+        protected planeService: PlaneService,
         private planeDrawService: PlaneDrawService
     ) {
         super();
@@ -136,36 +92,9 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         this.initSubscriptions();
     }
 
-    // private onMouseDown(event: Coordinate): void {
-    //     // console.log('mousedown', this.plane.id, event);
-    //     // this.mousePointer.x = this.secondPointer.x;
-    //     // this.mousePointer.y = this.secondPointer.y;
-    //     // this.secondPointer = { ...event };
-    //     // console.log('activeMouseFn:', this.mousePointer, this.secondPointer);
-    // }
-
-    // private onMouseUp(): void {
-    //     // this.resetPointer();
-    // }
-
-    // private onMouseMove(event: Coordinate): void {
-    //     // this.mousePointer.x = this.secondPointer.x;
-    //     // this.mousePointer.y = this.secondPointer.y;
-    //     // this.secondPointer.x = event.x;
-    //     // this.secondPointer.y = event.y;
-    //     // this.activeMouseFn();
-    // }
-
-    // private setColor(color: string): void {
-    //     this.context.strokeStyle = color;
-    // }
-
-    // private setStrokeWidth(width: number): void {
-    //     this.context.lineWidth = width;
-    // }
-
-    private onDrawingInput(input: DrawPoint): void {
+    protected onDrawingInput(input: DrawPoint): void {
         console.log('onDrawingInput', input);
+        // this.prepareDraw(input.color, input.size);
         switch (input.mode) {
             case 'pen':
                 this.onDrawFreeHand(input.drawCoordinates, input.color, input.size);
@@ -184,28 +113,25 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         }
     }
 
-    private onDrawFreeHand(
-        // firstPointer: Coordinates,
-        // secondPointer: Coordinates,
-        drawCoordinates: DrawCoordinate[],
-        color: string,
-        strokeWidth: number
-    ): void {
-        // console.log('onDrawFreeHand', drawCoordinates);
-        this.context.lineJoin = 'round';
-        this.context.strokeStyle = color;
-        this.context.lineWidth = strokeWidth;
-        this.context.globalCompositeOperation = 'source-over';
-        this.context.beginPath();
+    protected onDrawFreeHand(drawCoordinates: DrawCoordinate[], color: string, strokeWidth: number): void {
+        // this.context.lineJoin = 'round';
+        // this.context.strokeStyle = color;
+        // this.context.lineWidth = strokeWidth * 2;
+        // this.context.globalCompositeOperation = 'source-over';
+        // this.context.beginPath();
         drawCoordinates.forEach(drawCoordinate => {
+            this.prepareDraw(color, strokeWidth);
+            this.context.beginPath();
             this.context.moveTo(drawCoordinate.previousPointer.x, drawCoordinate.previousPointer.y);
             this.context.lineTo(drawCoordinate.nextPointer.x, drawCoordinate.nextPointer.y);
+            this.context.closePath();
+            this.context.stroke();
         });
-        this.context.closePath();
-        this.context.stroke();
+        // this.context.closePath();
+        // this.context.stroke();
     }
 
-    private onErase(drawCoordinates: DrawCoordinate[], clearSize: number): void {
+    protected onErase(drawCoordinates: DrawCoordinate[], clearSize: number): void {
         this.context.lineWidth = clearSize;
         this.context.globalCompositeOperation = 'destination-out';
         this.context.beginPath();
@@ -216,58 +142,39 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
         this.context.closePath();
     }
 
-    private onClear(
+    protected onClear(
         firstCoordinate: Coordinate = { x: 0, y: 0 },
         secondCoordinate: Coordinate = { x: this.width, y: this.height }
     ): void {
         this.context.clearRect(firstCoordinate.x, firstCoordinate.y, secondCoordinate.x, secondCoordinate.y);
     }
 
-    private onDrawCircle(drawCoordinate: DrawCoordinate, size: number, color: Color): void {
+    protected onDrawCircle(drawCoordinate: DrawCoordinate, size: number, color: Color): void {
         const { previousPointer, nextPointer } = drawCoordinate;
-        const radius = this.getRadius(previousPointer, nextPointer);
+        // const radius = this.getRadius(previousPointer, nextPointer);
         this.context.beginPath();
-        this.context.arc(previousPointer.x, previousPointer.y, radius, 0, 2 * Math.PI);
+        this.context.ellipse(
+            previousPointer.x,
+            previousPointer.y,
+            Math.abs(nextPointer.x - previousPointer.x) + size / 2,
+            Math.abs(nextPointer.y - previousPointer.y) + size / 2,
+            0,
+            0,
+            2 * Math.PI
+        );
         this.context.closePath();
         this.context.stroke();
     }
 
-    // private initConfig(): void {
-    //     if (this.context) {
-    //         this.setColor(this._color);
-    //         this.setStrokeWidth(this._strokeWidth);
-    //     }
-    // }
+    protected getSubscriptions(): Subscription[] {
+        return [];
+    }
 
-    // private initDrawingMode(): void {
-    //     // switch (this._drawingMode) {
-    //     //     case 'pen':
-    //     //         this.activeMouseFn = () =>
-    //     //             this.onDrawFreeHand(this.mousePointer, this.secondPointer, this._color, this._strokeWidth);
-    //     //         break;
-    //     //     case 'eraser':
-    //     //         this.activeMouseFn = () => this.onErase(this.mousePointer, this.secondPointer, this._strokeWidth);
-    //     //         break;
-    //     // }
-    // }
-
-    // private resetPointer(): void {
-    //     this.mousePointer = { x: 0, y: 0 };
-    //     this.secondPointer = { x: 0, y: 0 };
-    // }
-
-    private initDrawListeners(): void {
-        // console.log('initDrawListeners', this.plane.id);
-        // if (!this.startDrawing || !this.endDrawing || !this.draw) {
-        //     return;
-        // }
+    protected initDrawListeners(): void {
         if (!this.drawObservable) {
             return;
         }
         this.subscriptions.push(
-            // this.startDrawing.subscribe(pointer => this.onMouseDown(pointer)),
-            // this.endDrawing.subscribe(() => this.onMouseUp()),
-            // this.draw.subscribe(pointer => this.onMouseMove(pointer)),
             this.drawObservable.subscribe(drawPoint => this.onDrawingInput(drawPoint)),
             this.observeDrawing.subscribe(input => this.onDrawingInput(input))
         );
@@ -284,27 +191,35 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
                     this.cd.markForCheck();
                     this.cd.detectChanges();
                 });
-            })
+            }),
+            ...this.getSubscriptions()
         );
-        if (!this.isPreview) {
-            this.subscriptions.push(
-                this.planeService.getActivePlane().subscribe(activePlane => {
-                    if (activePlane === this.plane) {
-                        this.cd.reattach();
-                        this.initDrawListeners();
-                    } else {
-                        this.removeDrawListeners();
-                        this.cd.detach();
-                    }
-                })
-            );
-        } else {
-            this.subscriptions.push(this.previewDrawObservable.subscribe(drawPoint => this.onDrawingInput(drawPoint)));
-        }
+        // if (!this.isPreview) {
+        //     this.subscriptions.push(
+        //         this.planeService.getActivePlane().subscribe(activePlane => {
+        //             if (activePlane === this.plane) {
+        //                 this.cd.reattach();
+        //                 this.initDrawListeners();
+        //             } else {
+        //                 this.removeDrawListeners();
+        //                 this.cd.detach();
+        //             }
+        //         })
+        //     );
+        // } else {
+        //     this.subscriptions.push(this.previewDrawObservable.subscribe(drawPoint => this.onDrawingInput(drawPoint)));
+        // }
     }
 
-    private removeDrawListeners(): void {
+    protected removeDrawListeners(): void {
         this.cleanSubscriptions();
+    }
+
+    private prepareDraw(color: Color, strokeWidth: number): void {
+        this.context.lineJoin = 'round';
+        this.context.strokeStyle = color;
+        this.context.lineWidth = strokeWidth;
+        this.context.globalCompositeOperation = 'source-over';
     }
 
     private getRadius(firstCoordinate: Coordinate, secondCoordinate: Coordinate): number {
@@ -312,19 +227,4 @@ export class CanvasComponent extends BaseComponent implements OnInit, OnDestroy,
             Math.abs(firstCoordinate.x - secondCoordinate.x) ** 2 + Math.abs(firstCoordinate.y - secondCoordinate.y)
         );
     }
-
-    // private subscribeToActive(observable: Observable<boolean>): void {
-    //     // if (!observable || this.activeSubscription) {
-    //     //     return;
-    //     // }
-    //     // this.activeSubscription = observable.subscribe(isActive => {
-    //     //     if (isActive) {
-    //     //         this.initDrawListeners();
-    //     //         this.cd.reattach();
-    //     //     } else {
-    //     //         this.removeDrawListeners();
-    //     //         this.cd.detach();
-    //     //     }
-    //     // });
-    // }
 }
